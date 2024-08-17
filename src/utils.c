@@ -6,26 +6,26 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 21:58:25 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/08/12 18:36:23 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/08/17 09:57:01 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-void ft_lstadd_back(t_stack *stack, t_node *new)
+void ft_lstadd_back(t_stack *stack, t_node *new_node)
 {
 	t_node *temp;
 
-	if (!stack || !new)
+	if (!stack || !new_node)
 		return;
 	if(stack->head == NULL)
-		stack->head = new;
+		stack->head = new_node;
 	else
 	{
 		temp = stack->head;
 		while (temp->next != NULL)
 			temp = temp->next;
-		temp->next = new;
+		temp->next = new_node;
 	}
 }
 
@@ -41,15 +41,17 @@ t_node	*ft_lstnew(int value)
 	return (result);
 }
 
-void print_stack(t_stack *n)
+void print_stack(t_stack *stack)
 {
-	printf("size: %d\n", n->size);
-	t_node *current = n->head;
+	printf("size: %d\n", stack->size);
+	t_node *current = stack->head;
+	printf("-------------\n");
 	while (current)
 	{
 		printf("%d\n", current->value);
 		current = current->next;
 	}
+	printf("-------------\n");
 }
 
 void check_duplicates(int value, t_node *n)
@@ -132,4 +134,57 @@ int	ft_atoi(const char *nptr)
 		i++;
 	}
 	return (r * sign);
+}
+
+int	ft_isdigit(int c)
+{
+	if (c >= 48 && c <= 57)
+		return (1);
+	return (0);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char			*substring;
+	unsigned int	str_len;
+	size_t			i;
+
+	i = 0;
+	if (s == NULL)
+		return (NULL);
+	str_len = ft_strlen(s);
+	if (start >= str_len)
+		return (ft_strdup(""));
+	if (len > ft_strlen(s) - start)
+		len = ft_strlen(s) - start;
+	substring = (char *)malloc((len + 1) * sizeof(char));
+	if (!substring)
+		return (NULL);
+	while (i < len)
+	{
+		substring[i] = s[i + start];
+		i++;
+	}
+	substring[i] = '\0';
+	return (substring);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	int		len;
+	char	*copy;
+	int		i;
+
+	i = 0;
+	len = ft_strlen(s1);
+	copy = (char *)malloc((len + 1) * sizeof(char));
+	if (!copy)
+		return (NULL);
+	while (s1[i])
+	{
+		copy[i] = s1[i];
+		i++;
+	}
+	copy[i] = '\0';
+	return (copy);
 }

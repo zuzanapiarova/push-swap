@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/08/12 18:48:42 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/08/17 09:53:07 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <libc.h>
+//#include <libc.h>
 
 typedef struct s_node
 {
@@ -34,6 +34,15 @@ typedef struct s_stack
 	t_node	*head;
 	int		size;
 }				t_stack;
+
+// libft vars struct
+typedef struct s_vars
+{
+	char		**arr;
+	size_t		i;
+	size_t		j;
+	size_t		start_i;
+}				t_vars;
 
 // main
 void fill_a(t_stack *a, char *val);
@@ -51,14 +60,19 @@ void rra(t_stack *a);
 void rrb(t_stack *b);
 void rrr(t_stack *a, t_stack *b);
 
-// utils
+// libft
 void	ft_putstr_fd(int fd, char *s);
 t_node *ft_lstnew(int value);
-void ft_lstadd_back(t_stack *stack, t_node *new);
+void ft_lstadd_back(t_stack *stack, t_node *new_node);
 int	ft_atoi(const char *nptr);
-void print_stack(t_stack *n);
-void	check_duplicates(int value, t_node *n);
 size_t	ft_strlen(const char *s);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int ft_isdigit(int c);
+char *ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strdup(const char *s1);
+
+// utils
+void print_stack(t_stack *n);
+void	check_duplicates(int value, t_node *n);
 
 #endif
