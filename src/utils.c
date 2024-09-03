@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 21:58:25 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/08/17 09:57:01 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/08/17 10:29:58 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_node	*ft_lstnew(int value)
 
 void print_stack(t_stack *stack)
 {
-	printf("size: %d\n", stack->size);
+	printf("stack %s, size: %d\n", stack->name, stack->size);
 	t_node *current = stack->head;
 	printf("-------------\n");
 	while (current)
@@ -52,21 +52,6 @@ void print_stack(t_stack *stack)
 		current = current->next;
 	}
 	printf("-------------\n");
-}
-
-void check_duplicates(int value, t_node *n)
-{
-	t_node *current = n;
-	while (current)
-	{
-		if (current->value == value)
-		{
-			ft_putstr_fd(2, "Error\n");
-			exit(EXIT_FAILURE);
-		}
-		else
-			current = current->next;
-	}
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -138,7 +123,7 @@ int	ft_atoi(const char *nptr)
 
 int	ft_isdigit(int c)
 {
-	if (c >= 48 && c <= 57)
+	if (c >= '0' && c <= '9')
 		return (1);
 	return (0);
 }

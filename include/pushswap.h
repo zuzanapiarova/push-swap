@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/08/17 09:53:07 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/08/17 13:44:28 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdbool.h>
-//#include <libc.h>
 
 typedef struct s_node
 {
@@ -33,16 +32,8 @@ typedef struct s_stack
 {
 	t_node	*head;
 	int		size;
+	char	*name;
 }				t_stack;
-
-// libft vars struct
-typedef struct s_vars
-{
-	char		**arr;
-	size_t		i;
-	size_t		j;
-	size_t		start_i;
-}				t_vars;
 
 // main
 void fill_a(t_stack *a, char *val);
@@ -73,6 +64,7 @@ char	*ft_strdup(const char *s1);
 
 // utils
 void print_stack(t_stack *n);
-void	check_duplicates(int value, t_node *n);
+void	check_duplicates(int value, t_node *n);\
+void fill_f_from_str(t_stack *a, char *str);
 
 #endif
