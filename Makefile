@@ -3,6 +3,7 @@ CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
 AR = ar rcs
 NAME = push_swap
+LIBFT = libft
 HEADERS := -I ./include
 
 SRCS := $(shell find ./src -iname "*.c")
@@ -11,20 +12,29 @@ OBJS := ${SRCS:.c=.o}
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) $(HEADERS) -o $(NAME)
+	make -C $(LIBFT)
+	@$(CC) $(OBJS) $(HEADERS) libft/libft.a -o $(NAME)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
 
 allc: all clean
+	@echo "Making all and cleaning up"
 
 clean:
-	rm -f $(OBJS)
-	rm -f *.so
+	make clean -C $(LIBFT)
+	${RM} $(OBJS)
+	@echo "Removing everything but library and source files"
 
 fclean: clean
-	rm -rf $(NAME)
+	make fclean -C $(LIBFT)
+	${RM} ${NAME} libft.a
 
-re: fclean all
+re: fclean all clean
+	@echo "Cleaning up and redoing all"
 
-.PHONY: all clean fclean re allc
+lib:
+	make -C $(LIBFT)
+	@echo "Recreating libft library"
+
+.PHONY: all clean fclean re allc lib

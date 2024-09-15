@@ -6,65 +6,69 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/08/17 13:44:28 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/16 00:34:33 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP
-# define PUSH_SWAP
-
-#define ERROR "Error\n"
+#ifndef PUSHSWAP_H
+# define PUSHSWAP_H
 
 //  read, write, malloc, free, exit
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdbool.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdbool.h>
+# include "../libft/libft.h" // do not forget to include the library header here
 
 typedef struct s_node
 {
-	int		value;
+	int				value;
 	struct s_node	*next;
-
-}				t_node;
+	int				i;
+}					t_node;
 
 typedef struct s_stack
 {
-	t_node	*head;
-	int		size;
-	char	*name;
+	t_node		*head;
+	int			size;
+	char		*name;
+	t_node		*first;
+	t_node		*last;
+	t_node		*min;
+	t_node		*max;
 }				t_stack;
 
-// main
-void fill_a(t_stack *a, char *val);
+// algorithm
+void	sort_three(t_stack *a);
+void	algorithm(t_stack *a, t_stack *b);
 
 // functions
-void sa(t_stack *a);
-void sb(t_stack *b);
-void ss(t_stack *a, t_stack *b);
-void pa(t_stack *a,t_stack *b);
-void pb(t_stack *a, t_stack *b);
-void ra(t_stack *a);
-void rb(t_stack *b);
-void rr(t_stack *a, t_stack *b);
-void rra(t_stack *a);
-void rrb(t_stack *b);
-void rrr(t_stack *a, t_stack *b);
+void	sa(t_stack *a);
+void	sb(t_stack *b);
+void	ss(t_stack *a, t_stack *b);
+void	pa(t_stack *a, t_stack *b);
+void	pb(t_stack *a, t_stack *b);
+void	ra(t_stack *a);
+void	rb(t_stack *b);
+void	rr(t_stack *a, t_stack *b);
+void	rra(t_stack *a);
+void	rrb(t_stack *b);
+void	rrr(t_stack *a, t_stack *b);
 
-// libft
-void	ft_putstr_fd(int fd, char *s);
-t_node *ft_lstnew(int value);
-void ft_lstadd_back(t_stack *stack, t_node *new_node);
-int	ft_atoi(const char *nptr);
-size_t	ft_strlen(const char *s);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-int ft_isdigit(int c);
-char *ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_strdup(const char *s1);
+// upgraded libft functions
+t_node	*ft_stacknew(int value);
+void	ft_stackadd_back(t_stack *stack, t_node *new_node);
+t_node	*ft_stacklast(t_stack *s);
+void	index_stack(t_stack *s);
+void	print_stack(t_stack *s);
 
 // utils
-void print_stack(t_stack *n);
-void	check_duplicates(int value, t_node *n);\
-void fill_f_from_str(t_stack *a, char *str);
+void	fill_a(t_stack *a, char *val);
+bool	is_sorted(t_stack *a);
+void	fill_a_from_str(t_stack *a, char *str);
+void	check_duplicates(int value, t_node *n);
+void	find_values(t_stack *s);
+int		select_r_or_rr(t_node *n, t_stack *s);
+t_node	*find_closest_neighbor(t_node *n, t_stack *s);
 
 #endif

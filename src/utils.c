@@ -5,171 +5,118 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 21:58:25 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/08/17 10:29:58 by zuzanapiaro      ###   ########.fr       */
+/*   Created: 2024/08/14 18:04:26 by zpiarova          #+#    #+#             */
+/*   Updated: 2024/09/16 00:38:15 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-void ft_lstadd_back(t_stack *stack, t_node *new_node)
+void	check_duplicates(int value, t_node *n)
+{
+	t_node *current;
+
+	current = n;
+	while (current)
+	{
+		if (current->value == value)
+		{
+			ft_putstr_fd("Duplicates\n", 2);
+			exit(EXIT_FAILURE);
+			// TODO: FREE AND DELETE ENTIRE STACK
+		}
+		else
+			current = current->next;
+	}
+}
+
+bool	is_valid_arg(char *s)
+{
+	// rozdel na jednotlive cisla a potom atoi a pridaj do stacku
+	int	i;
+	int	len;
+
+	len = ft_strlen(s);
+	i = 0;
+	while (*s == 32 || ft_isdigit(*s))
+	{
+		i++;
+		s++;
+	}
+	return (i == len);
+}
+
+// iterate stack until node  is bigger than next node, or we come to end
+// if the node we finish at is the last one, list is sorted, else not
+bool	is_sorted(t_stack *a)
+{
+	t_node	*node;
+
+	node = a->head;
+	while (node && node->next && node->value < node->next->value)
+		node = node->next;
+	return (!node -> next);
+}
+
+void find_values(t_stack *s)
 {
 	t_node *temp;
 
-	if (!stack || !new_node)
-		return;
-	if(stack->head == NULL)
-		stack->head = new_node;
+	s->first = s->head;
+	s->min = s->head;
+	s->max = s->head;
+	temp = s->head;
+	while(temp->next != NULL)
+	{
+		if (temp->value > s->max->value)
+			s->max = temp;
+		if (temp->value < s->min->value)
+			s->min = temp;
+		temp = temp->next;
+	}
+	s->last = temp;
+	if (temp->value > s->max->value)
+		s->max = temp;
+	if (temp->value < s->min->value)
+		s->min = temp;
+	index_stack(s);
+}
+// selects r or rr depending on which is faster to get the node n to top
+int	select_r_or_rr(t_node *n, t_stack *s)
+{
+	int	operation;
+
+	if (n->i <= s->size / 2)
+		operation = 1; // r
 	else
-	{
-		temp = stack->head;
-		while (temp->next != NULL)
-			temp = temp->next;
-		temp->next = new_node;
-	}
+		operation = 2; // rr
+	return (operation);
 }
 
-t_node	*ft_lstnew(int value)
+// finds node closest to our nodes value, if two nodes are both close, one smaller, one bigger, we keep the bigger one
+t_node *find_closest_neighbor(t_node *n, t_stack *s)
 {
-	t_node	*result;
+	// NOT FINISHED !!!!!!!!!!!!!
+	t_node *result;
+	t_node *temp;
+	int		delta;
+	int		temp_delta;
 
-	result = (t_node *)malloc(sizeof(t_node));
-	if (!result)
-		return (NULL);
-	result->value = value;
-	result->next = NULL;
+	result = s->head;
+	temp = s->head;
+	delta = temp->value - n->value;
+	if (delta < 0)
+		delta *= -1;
+	while (temp)
+	{
+		temp_delta = temp->value - n->value;
+		if (temp_delta < 0)
+			temp_delta *= -1;
+		if (temp_delta < delta )
+			result = temp;
+		if (temp_delta == delta && temp->value > result->value)
+			result = temp;
+		temp = temp->next;
+	}
 	return (result);
-}
-
-void print_stack(t_stack *stack)
-{
-	printf("stack %s, size: %d\n", stack->name, stack->size);
-	t_node *current = stack->head;
-	printf("-------------\n");
-	while (current)
-	{
-		printf("%d\n", current->value);
-		current = current->next;
-	}
-	printf("-------------\n");
-}
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t			i;
-	unsigned char	*ds1;
-	unsigned char	*ds2;
-
-	i = 0;
-	ds1 = (unsigned char *)s1;
-	ds2 = (unsigned char *)s2;
-	if (n == 0)
-		return (0);
-	while (i < n && ds1[i])
-	{
-		if (ds1[i] != ds2[i] || i == n - 1)
-			return (ds1[i] - ds2[i]);
-		i++;
-	}
-	return (ds1[i] - ds2[i]);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-void	ft_putstr_fd(int fd, char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-}
-
-int	ft_atoi(const char *nptr)
-{
-	int	r;
-	int	i;
-	int	sign;
-
-	i = 0;
-	sign = 1;
-	r = 0;
-	while (nptr[i] == 32 || (nptr[i] >= 9 && nptr[i] <= 13))
-		i++;
-	if (nptr[i] == '+' || nptr[i] == '-')
-	{
-		if (nptr[i] == '-')
-			sign *= -1;
-		i++;
-	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
-	{
-		r = r * 10 + (nptr[i] - '0');
-		i++;
-	}
-	return (r * sign);
-}
-
-int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char			*substring;
-	unsigned int	str_len;
-	size_t			i;
-
-	i = 0;
-	if (s == NULL)
-		return (NULL);
-	str_len = ft_strlen(s);
-	if (start >= str_len)
-		return (ft_strdup(""));
-	if (len > ft_strlen(s) - start)
-		len = ft_strlen(s) - start;
-	substring = (char *)malloc((len + 1) * sizeof(char));
-	if (!substring)
-		return (NULL);
-	while (i < len)
-	{
-		substring[i] = s[i + start];
-		i++;
-	}
-	substring[i] = '\0';
-	return (substring);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	int		len;
-	char	*copy;
-	int		i;
-
-	i = 0;
-	len = ft_strlen(s1);
-	copy = (char *)malloc((len + 1) * sizeof(char));
-	if (!copy)
-		return (NULL);
-	while (s1[i])
-	{
-		copy[i] = s1[i];
-		i++;
-	}
-	copy[i] = '\0';
-	return (copy);
 }

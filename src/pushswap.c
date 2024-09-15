@@ -5,182 +5,92 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 19:52:23 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/08/17 16:42:02 by zuzanapiaro      ###   ########.fr       */
+/*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
+/*   Updated: 2024/09/15 23:29:57 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-void check_duplicates(int value, t_node *n)
-{
-	t_node *current = n;
-	while (current)
-	{
-		if (current->value == value)
-		{
-			printf("Duplicates");
-			ft_putstr_fd(2, "Error\n");
-			exit(EXIT_FAILURE);
-			// TODO: FREE AND DELETE ENTIRE STACK
-		}
-		else
-			current = current->next;
-	}
-}
-
-bool	is_valid_arg(char *s)
-{
-	int i;
-	int len;
-
-	len = ft_strlen(s);
-	i = 0;
-	while (*s == 32 || ft_isdigit(*s) || *s == '-' || *s == '+')
-	{
-		i++;
-		s++;
-	}
-	return (i == len);
-}
-
-void fill_a(t_stack *a, char *val)
+// TODO: ADD INDEX OF EACH NODE OF EACH LIST
+// this means atoi could not convert the number thus returns 0, but we shouldnt do it if it is normal value 0
+// 	if (value == 0 && ft_strncmp(val, "0", ft_strlen(val)) != 0)
+// fills stack a from numbers received in program arguments
+void	fill_a(t_stack *a, char *val)
 {
 	int		value;
 	t_node	*node;
+	int		i;
 
-	value = ft_atoi(val);
-	check_duplicates(value, a->head);
-	if (value == 0 && ft_strncmp(val, "0", ft_strlen(val)) != 0) // this means atoi could not convert the number thus returns 0, but we shouldnt do it if it is normal value 0
+	i = 0;
+	while(i < (int)ft_strlen(val)) //we do this because we want to check if input value is a valid number
 	{
-		printf("error fill_a");
-		ft_putstr_fd(2, "Error\n");
+		if (!ft_isdigit(val[i]) && val[i] != '+' && val[i] != '-')
+		{
+			ft_putstr_fd("Error in filing stack. Invalid arguments. Must be numbers only.\n", 2);
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+	value = ft_atoi(val);
+	if (value == 0 && ft_strncmp(val, "0", 1) && ft_strncmp(val, "+0", 2) && ft_strncmp(val, "-0", 2))
+	{
+		ft_putstr_fd("Error in filing stack. Invalid arguments. Must be numbers only.\n", 2);
 		exit(EXIT_FAILURE);
 		// TODO: FREE AND DELETE ENTIRE STACK
 	}
-	else
-	{
-		node = ft_lstnew(value);
-		ft_lstadd_back(a, node);
-		a->size += 1;
-	}
+	check_duplicates(value, a->head);
+	node = ft_stacknew(value);
+	ft_stackadd_back(a, node);
+	a->size += 1;
 }
 
-void fill_a_from_str(t_stack *a, char *str)
+void	fill_a_from_str(t_stack *a, char *str)
 {
-		int j = 0;
-		char *temp;
+	int		j;
+	char	*temp;
+	int		len;
 
-		while (str[j])
+	j = 0;
+	while (str[j])
+	{
+		if (j > (int)ft_strlen(str)) // if j is already after the string
+			break;
+		len = 0;
+		if (str[j] == 32)
+			j++;
+		while (ft_isdigit(str[j]) || str[j] == '-' || str[j] == '+')
 		{
-			int len = 0;
-			if (j > (int)ft_strlen(str))
-				break;
-			if (str[j] == 32)
-				j++;
-			while (ft_isdigit(str[j]) || str[j] == '-' || str[j] == '+')
-			{
-				len++;
-				j++;
-			}
-			temp = ft_substr(str, j - len, len);
-			fill_a(a, temp);
-			free(temp);
+			len++;
 			j++;
 		}
-}
-
-bool is_sorted(t_stack *a)
-{
-	t_node *node = a->head;
-
-	while (node && node->next && node->value < node->next->value)
-		node = node->next;
-	if (!node -> next)
-		return 1;
-	else
-		return 0;
+		if (j == 0)
+		{
+			ft_putstr_fd("Error in filing stack. Invalid arguments. Must be numbers only.\n", 2);
+			exit(EXIT_FAILURE);
+		}
+		temp = ft_substr(str, j - len, len);
+		fill_a(a, temp);
+		free(temp);
+		j++;
+	}
 }
 
 // ideas
 // stallin sort but each deleted element is pushed to a new array into the correct sorted spot
-// when adding element to b, compare to first element, if not push it back
-// then when we finish first iteration of stalin we have 2 sorted arrays
+//then when we finish first iteration of stalin we have 2 sorted arrays
 // now we just combine them back
 
-//check with 2 1 3 6 5 8:
-/*
-
-	sa(a);
-	pb(a, b);
-	pb(a, b);
-	pb(a, b);
-	ra(a);
-	rb(b);
-	rra(a);
-	rrb(b);
-	sa(a);
-	pa(a, b);
-	pa(a, b);
-	pa(a, b);
-*/
-void algorithm(t_stack *a, t_stack *b)
+void	init_stacks(t_stack *a, t_stack *b)
 {
-	t_node *node;
-	int midpoint;
-
-	if (is_sorted(a))
-		EXIT_SUCCESS;
-	node = a->head;
-	if (node->next == NULL || (node->next && node->value < node->next->value))
-		midpoint = node->value;
-	else if (node->next && node->value > node->next->value)
-		midpoint = node->next->value;
-
-	while (a->head)
-	{
-		// compare the two first elements
-		// keep the bigger in a, push the smaller to b
-		// keep midpoint value against which each value is compared
-		node = a->head;
-		// if midpoint is smaller than smaller one of the two values
-		if (node->next && node->value < node->next->value)
-		{
-			if (node->value < midpoint)
-			{
-				midpoint = node->value;
-				pb(a, b);
-			}
-			else if (node->value > midpoint)
-			{
-				ra(a);
-			}
-		}
-		else if (node->next && node->value > node->next->value)
-		{
-			if (midpoint > node->next->value)
-			{
-				midpoint = node->next->value;
-				sa(a);
-				pb(a, b);
-			}
-			else if (node->value > midpoint)
-				ra(a);
-		}
-		printf("midpoint: %d\n", midpoint);
-		// // if the midpoint is bigger than both the values
-		// if (node->next && node->value > node->next->value)
-		// {
-		// 	sa(a);
-		// 	pb(a, b);
-		// 	continue;
-		// }
-		// else if (node->next && node->value < node->next->value)
-		// 	ra(a);
-		// else
-		// 	pb(a, b);
-	}
+	a->head = NULL;
+	a->size = 0;
+	a->name = "a";
+	b->head = NULL;
+	b->size = 0;
+	b->name = "b";
 }
+
 
 int	main(int argc, char *argv[])
 {
@@ -189,45 +99,33 @@ int	main(int argc, char *argv[])
 	t_stack	b;
 
 	i = 0;
-	a.head = NULL;
-	a.size = 0;
-	a.name = "a";
-	b.head = NULL;
-	b.size = 0;
-	b.name = "b";
-	if (argc <= 1)
+	init_stacks(&a, &b);
+	if (argc <= 1 || (argc == 2 && ft_strlen(argv[1]) == 0))
 	{
-		ft_putstr_fd(2, "Error\n");
+		ft_putstr_fd("No arguments input. Enter numbers or string of numbers.\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	// if we want to pass one string of arguments but it is not valid
-	else if (!is_valid_arg(argv[1]))
-	{
-		ft_putstr_fd(2, "Error\n");
-		exit(EXIT_FAILURE);
-	}
-	// if the arguments are passed in as string
-	else if (argc == 2 && is_valid_arg(argv[1]))
+	else if (argc == 2)
 		fill_a_from_str(&a, argv[1]);
-	// if the arguments are passed in as multiple strings one after another
 	else
 	{
 		while (++i < argc)
 			fill_a(&a, argv[i]);
 	}
-	// print_stack(&a);
-
-	// ----- THE ACTUAL PUSH SWAP SORTING ALGORITHM
+	find_values(&a);
+	print_stack(&a);
 	algorithm(&a, &b);
-	// ---------------------------------------------
-
 	print_stack(&a);
 	print_stack(&b);
-	// TODO: FREE AND DELETE BOTH STACKS
-	return 0;
+	// TODO: free both stacks and all their nodes
+	return (0);
 }
 
 // TODO
-// argument as string cannot handle - and returns error
 // handle if int is bigger than max value for its data type
-// free stacks in all pointed cases
+// proper memory allocation and freeing - leaks
+// ./push_swap 1a, .. 4 5 1a, "4a 5a 6a": includes number if it ends with character when it shouldnt. in string every number and last in single arguments
+// how to put functions into buffer: functions return string with their name and this is then assigned to buffer variable
+// WHAT IF WE ADD FIRST, LAST, MAX, MIN PARAMETERS TO OUR LISTS
+// handle if we want to pb but there is nothign left to pb, same with pa
+// add value of middle element and then perform operations based on it - if element is smalle than middle value
