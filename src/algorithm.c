@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algorithm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 14:21:30 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/16 00:36:30 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/16 18:21:40 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void fill_b(t_stack *a, t_stack *b)
 	pb(a, b);
 	while (a->size > 3)
 	{
+		// if new value will be the new max/min:
 		// get the biggest value to top as the new max/min must be placed on top of current max
 		if(a->first->value > b->max->value || a->first->value < b->min->value) // this condition works great
 		{
@@ -119,7 +120,8 @@ void fill_b(t_stack *a, t_stack *b)
 			}
 			pb(a, b);
 		}
-		//else place the element into its correct position by removing all other elements until its predecessor/succesor and pb to top
+		// else if it is other element and will not be new max/min of the stack
+		//  place it to its correct position by removing all other elements until its predecessor/succesor and pb to top
 		else
 		{
 			t_node *neighbor = find_closest_neighbor(a->first, b);
@@ -133,11 +135,18 @@ void fill_b(t_stack *a, t_stack *b)
 				else
 					rrb(b);
 			}
-			// if neighbor is smaller, just pb above it
-			pb(a, b);
+			// if its smallest neighbor is th efirst on the list, just pb
+			if (find_smaller_neighbor() == b->head)
+				pb(a, b);
 			// but if neighbor is bigger, we pb above it and then we also swap them
 			if (neighbor->value > a->first->value)
-				sb(b);
+			{
+				rb(b);
+				pb(a, b);
+				rrb(b);
+			}
+			// if neighbor is smaller, just pb above it
+			pb(a, b);
 			// // place_correct(a, b); // TODO - it will place the pb node to correct place which is right below its upper neighbor
 			// while (b->first->value < a->first->value) // !!!! this condition has to be changed, find algo to place el to correct spot - meaning next to its closest upper/lower neighbor
 			// 	rb(b);
@@ -145,6 +154,7 @@ void fill_b(t_stack *a, t_stack *b)
 		}
 	}
 }
+
 // then implement index_from_top and index_from_bottom and depending on which is bigger, either ra, ra, ra (top) or rra, rra, rra(bottom)
 // or we have to find which element is closest in value from bottom or from top and then place it above/below the closer one
 
@@ -152,12 +162,8 @@ void	algorithm(t_stack *a, t_stack *b)
 {
 	if (is_sorted(a))
 	{
-		if (b->head == NULL)
-		{
-			ft_putstr_fd("A sorted, B empty. Finished.\n", 1);
-			return ;
-		}
-		back_to_a(a, b);
+		ft_putstr_fd("A sorted, B empty. Finished.\n", 1);
+		return ;
 	}
 	if (a->size == 2) // we know this case is not sorted because before we checked if the list is sorted
 		sort_two(a);
@@ -179,5 +185,5 @@ void	algorithm(t_stack *a, t_stack *b)
 		fill_b(a, b);
 		sort_three(a);
 	}
-	//back_to_a(a, b);
+	back_to_a(a, b);
 }

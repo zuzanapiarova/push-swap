@@ -21,7 +21,7 @@ WHAT I WANT TO DO
 	- first
 	- last
 	- index each node and keep these indexes always updated
-3. check if stack is already sorted and if b is empty (just to make sure we did not forget anything there)
+3. check if stack is already sorted (and check if b is empty (just to make sure we did not forget anything there))
 4. implement solution for the short stacks - 2/3/4/5 elements
 a. if stack is 2/3 arguments, sort in little operations without using stack b
 b. if stack is 4, pb once, sort the stack A - DONE

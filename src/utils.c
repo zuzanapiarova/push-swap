@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:26 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/16 00:38:15 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/16 18:10:53 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,35 @@ t_node *find_closest_neighbor(t_node *n, t_stack *s)
 		if (temp_delta < delta )
 			result = temp;
 		if (temp_delta == delta && temp->value > result->value)
+			result = temp;
+		temp = temp->next;
+	}
+	return (result);
+}
+
+// finds node in stack s that is the closest smaller value than our node
+t_node *find_smaller_neighbor(t_node *n, t_stack *s)
+{
+	// NOT FINISHED !!!!!!!!!!!!!
+	t_node *result;
+	t_node *temp;
+	int		delta;
+	int		curr_delta;
+
+	temp = s->head;
+	// result = s->head;
+	// delta = temp->value - n->value;
+	// if (delta < 0)
+	// 	delta *= -1;
+	delta = temp->value - n->value;
+	while (temp)
+	{
+		curr_delta = temp->value - n->value;
+		if (curr_delta < 0)
+			curr_delta *= -1;
+		if (curr_delta < delta && temp->value < n->value)
+			result = temp;
+		if (curr_delta == delta && temp->value > result->value)
 			result = temp;
 		temp = temp->next;
 	}

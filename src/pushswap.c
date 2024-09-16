@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/15 23:29:57 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/16 17:44:33 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	main(int argc, char *argv[])
 	print_stack(&a);
 	algorithm(&a, &b);
 	print_stack(&a);
-	print_stack(&b);
+	//print_stack(&b);
 	// TODO: free both stacks and all their nodes
 	return (0);
 }
