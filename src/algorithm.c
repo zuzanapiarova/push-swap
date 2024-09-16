@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:40:11 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/09/16 22:59:57 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/16 23:28:54 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ void sort_three(t_stack *s)
 // b is sorted descending
 void back_to_a(t_stack *a, t_stack *b)
 {
+    // TODO NOW:
+    // CANNOT DO PB-RRA   PB-RRA AS IT WILL ROTATE OUR STACK THE OTHER WAY
+    //a. a is sorted block with no gaps - smaller than b block - we pb entire b block and then rra
+    //b. a is sorted block with no gaps - bigger than b block - we just pb
+    //c. a is sorted block, b is two blocks top smaller and bottom bigger than a - we just pb until we find element bigger than biggest a
+    //d. a is sorted block, b is two blocks bottom smaller and top bigger than a - we pb until find element smaller than smallest a block node
+
+    // we have to pb until our new a->first is not smaller than
    // // put everything from top to bottom until finding element one bigger than top of b
    // while (a->first->next > b->first)
    // {
