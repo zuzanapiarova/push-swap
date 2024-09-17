@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/09/16 00:34:33 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/17 19:33:57 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	fill_a_from_str(t_stack *a, char *str);
 void	check_duplicates(int value, t_node *n);
 void	find_values(t_stack *s);
 int		select_r_or_rr(t_node *n, t_stack *s);
-t_node	*find_closest_neighbor(t_node *n, t_stack *s);
+t_node *find_predecessor(t_node *n, t_stack *s);
+t_node *find_successor(t_node *n, t_stack *s);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:40:11 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/09/16 23:28:54 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/17 21:17:07 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,37 +76,44 @@ void back_to_a(t_stack *a, t_stack *b)
     //b. a is sorted block with no gaps - bigger than b block - we just pb
     //c. a is sorted block, b is two blocks top smaller and bottom bigger than a - we just pb until we find element bigger than biggest a
     //d. a is sorted block, b is two blocks bottom smaller and top bigger than a - we pb until find element smaller than smallest a block node
-
-    // we have to pb until our new a->first is not smaller than
-   // // put everything from top to bottom until finding element one bigger than top of b
-   // while (a->first->next > b->first)
-   // {
-   //  printf("rotating top of a to end");
-   //  ra(a);
-   // }
-   // // pb so now list is sorted from end
-   // if (b->first < a->first)
-   // {
-   //  printf("pa");
-   //  pa(a, b);
-   // }
-   // // then take from end to top of a
-   // while (a->first > b->first)
-   // {
-   //  printf("rra from end to top");
-   //  rra(a);
-   // }
-   // if (b->first < a->first)
-   // {
-   //  printf("pa");
-   //  pa(a, b);
-   // }
-   // print_stack(a);
-   while(b->size > 0)
-       pa(a, b);
+    while(b->size > 0)
+    {
+        // SOMEWHERE IN THIS LOOP IS A SEGFAULT
+        // this puts the closest bigger element to top so we can pa to the top in correct order
+        // thus combining two sorted parts - ascending from
+        t_node *successor = find_successor(b->head, a);
+        if (successor && a->head != b->head + 1)
+        {
+            int operation = select_r_or_rr(successor, a);
+            while (a->first != successor)
+            {
+                if (operation == 1)
+                    ra(a);
+                else
+                    rra(a);
+            }
+        }
+        pa(a, b);
+    }
+   if (a->min == a->first)
+        printf("list is probably sorted\n");
+   // find distance from a->first and a->min
+   else if (a->min->i - a->first->i < a->last->i - a->max->i)
+   {
+        // number of elements tat need to go to the end are smaller so we ra
+        while (a->first != a->min)
+            ra(a);
+   }
+   else
+   {
+        // number of elements that need to go to the end is bigger so we rra from back
+        while (a->last != a->max)
+            rra(a);
+   }
+   // find distance from a->last and a->max
 }
 
-// find the closestc predecessor to node n in stack s
+// find the closest predecessor to node n in stack s
 t_node *find_predecessor(t_node *n, t_stack *s)
 {
            // finding predecessor(closest smaller element) to our a head --> getting it to top --> then pb - so new element is on top of its predecessor
@@ -134,6 +141,43 @@ t_node *find_predecessor(t_node *n, t_stack *s)
            }
            printf("el: %d, predecessor: %d\n", n->value, predecessor->value);
            return predecessor;
+}
+
+// find the successor(closest bigger element) to node n in stack s
+t_node *find_successor(t_node *n, t_stack *s)
+{
+        if(!s->head)
+            return NULL;
+           t_node *temp = s->head;
+           int delta;
+           t_node *successor;
+
+           // find first bigger value
+           while (temp && temp->value < n->value)
+           {
+                printf("segfault here %d < %d\n", temp->value, n->value);
+                if (temp->next == NULL)
+                    return NULL;
+               temp = temp->next;
+           }
+           printf("doesnt run\n");
+           if (temp->value > n->value)
+           {
+               delta = temp->value - n->value;
+               successor = temp;
+           }
+           temp = temp->next;
+           while (temp)
+           {
+               if (temp->value - n->value < delta && temp->value > n->value)
+               {
+                   successor = temp;
+                   delta = temp->value - n->value;
+               }
+               temp = temp->next;
+           }
+           printf("el: %d, successor: %d\n", n->value, successor->value);
+           return successor;
 }
 
 // B is always filled in max 2 separate partitions, both sorted in descending order
@@ -201,9 +245,12 @@ void    algorithm(t_stack *a, t_stack *b)
    }
    else
    {
+
        fill_b(a, b);
        sort_three(a);
    }
+   print_stack(a);
+   print_stack(b);
    back_to_a(a, b);
 }
 
