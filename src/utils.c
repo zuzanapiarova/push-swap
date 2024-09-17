@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:26 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/16 18:10:53 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:24:22 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,11 @@ int	select_r_or_rr(t_node *n, t_stack *s)
 		operation = 1; // r
 	else
 		operation = 2; // rr
+
 	return (operation);
 }
+// OR implement index_from_top and index_from_bottom and depending on which is bigger, either ra, ra, ra (top) or rra, rra, rra(bottom)
+
 
 // finds node closest to our nodes value, if two nodes are both close, one smaller, one bigger, we keep the bigger one
 t_node *find_closest_neighbor(t_node *n, t_stack *s)
