@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_b.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:43:45 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/18 12:21:21 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/18 19:00:24 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,38 +37,38 @@ void	sb(t_stack *b)
 
 // pb (push b): Take the first element at the top of a and
 // put it at the top of b. Do nothing if a is empty.
-void pb(t_stack *a, t_stack *b)
+void	pb(t_stack *a, t_stack *b)
 {
-    t_node *temp;
+	t_node	*temp;
+	t_node	*current;
 
-    ft_putstr_fd("pb\n", 1);
-    if (a->head)
-    {
-        temp = a->head;
-        a->head = a->head->next;
-        temp->next = b->head;
-        b->head = temp;
-        b->size += 1;
-        a->size -= 1;
-        b->first = b->head;
-        a->first = a->head;
-        // Recalculate max and min for stack b
-        b->max = b->head; // Start by assuming the new head is the max
-        b->min = b->head; // Start by assuming the new head is the min
-        t_node *current = b->head;
-        while (current != NULL)
-        {
-            if (current->value > b->max->value)
-                b->max = current;
-            if (current->value < b->min->value)
-                b->min = current;
-            current = current->next;
-        }
-        if (a->head == NULL)
-            a->last = NULL;
-        if (b->head->next == NULL)
-            b->last = b->head;
-    }
+	ft_putstr_fd("pb\n", 1);
+	if (a->head)
+	{
+		temp = a->head;
+		a->head = a->head->next;
+		temp->next = b->head;
+		b->head = temp;
+		b->size += 1;
+		a->size -= 1;
+		b->first = b->head;
+		a->first = a->head;
+		b->max = b->head;
+		b->min = b->head;
+		current = b->head;
+		while (current != NULL)
+		{
+			if (current->value > b->max->value)
+				b->max = current;
+			if (current->value < b->min->value)
+				b->min = current;
+			current = current->next;
+		}
+		if (a->head == NULL)
+			a->last = NULL;
+		if (b->head->next == NULL)
+			b->last = b->head;
+	}
 	index_stack(b);
 }
 

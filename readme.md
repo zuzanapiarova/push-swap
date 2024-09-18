@@ -46,3 +46,26 @@ CONSIDER
 - "It's the fact that you are not only pushing the smallest number, but the smallest or biggest depending on which is 'closer' to the top that improved your algorithm performance. It's not because you separated it in chunks."
 
 ! or maybe we can push exactly half elements, sort both stacks (a asc, b desc) and then just combine them by pa to the correct spot
+
+
+
+// TODO
+// handle if int is bigger than max value for its data type
+// proper memory allocation and freeing - leaks
+// ./push_swap 1a, .. 4 5 1a, "4a 5a 6a": includes number if it ends with character when it shouldnt. in string every number and last in single arguments
+// how to put functions into buffer: functions return string with their name and this is then assigned to buffer variable
+// WHAT IF WE ADD FIRST, LAST, MAX, MIN PARAMETERS TO OUR LISTS
+// handle if we want to pb but there is nothign left to pb, same with pa
+// add value of middle element and then perform operations based on it - if element is smalle than middle value
+
+// IDEAS
+// start building one sorted ascending block in a as well, and then wehen we pb we already have one block there
+// so we put first element to the bottom of a and if we find its direct successor we ra so we are building one sorted part form teh bottom
+
+// IMPLEMENT COUNTING
+// count for each element form a how many operations it takes to tput it to top + how many operations is takes to put it above its psuccessor
+// only store the count
+// count what it costs for each of our numbers from a to get it to top of a AND what it costs for its predecessor from b to get it to top of b
+// for each node in each iteration(=recalculate after every push) keep 4 things:
+// how many operations: ra(number in a)+rb(number in a), rra(number in a)+rrb(number in a) it takes to get them to top
+// NEXT STEP: then we can see if it takes 4 rra and 5 rrb we can substitute 4rr and 1 rrb

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_a.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:03:25 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/18 12:37:59 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/18 18:59:12 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,37 +37,38 @@ void	sa(t_stack *a)
 
 // pa (push a): Take the first element at the top of b and
 // put it at the top of a. Do nothing if b is empty.
-void pa(t_stack *a, t_stack *b)
+void	pa(t_stack *a, t_stack *b)
 {
-    t_node *temp;
+	t_node	*temp;
+	t_node	*current;
 
-    ft_putstr_fd("pa\n", 1);
-    if (b->head)
-    {
-        temp = b->head;
-        b->head = b->head->next;
-        temp->next = a->head;
-        a->head = temp;
-        a->size += 1;
-        b->size -= 1;
-        a->first = a->head;
-        b->first = b->head;
-        a->max = a->head; // recalculate max by assuming the new head is the max
-        a->min = a->head; // recalculate min by assuming the new head is the min
-        t_node *current = a->head;
-        while (current != NULL)
-        {
-            if (current->value > a->max->value)
-                a->max = current;
-            if (current->value < a->min->value)
-                a->min = current;
-            current = current->next;
-        }
-        if (b->head == NULL)
-            b->last = NULL;
-        if (a->head->next == NULL)
-            a->last = a->head;
-    }
+	ft_putstr_fd("pa\n", 1);
+	if (b->head)
+	{
+		temp = b->head;
+		b->head = b->head->next;
+		temp->next = a->head;
+		a->head = temp;
+		a->size += 1;
+		b->size -= 1;
+		a->first = a->head;
+		b->first = b->head;
+		a->max = a->head;
+		a->min = a->head;
+		current = a->head;
+		while (current != NULL)
+		{
+			if (current->value > a->max->value)
+				a->max = current;
+			if (current->value < a->min->value)
+				a->min = current;
+			current = current->next;
+		}
+		if (b->head == NULL)
+			b->last = NULL;
+		if (a->head->next == NULL)
+			a->last = a->head;
+	}
 	index_stack(a);
 	index_stack(b);
 }

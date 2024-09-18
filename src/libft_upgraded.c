@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_upgraded.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 18:52:29 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/17 23:26:44 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/18 19:01:17 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_node	*ft_stacknew(int value)
 
 t_node	*ft_stacklast(t_stack *s)
 {
-	t_node *temp;
+	t_node	*temp;
 
 	if (!s)
 		return (NULL);
@@ -55,7 +55,7 @@ t_node	*ft_stacklast(t_stack *s)
 
 void	index_stack(t_stack *s)
 {
-	t_node *temp;
+	t_node	*temp;
 	int		index;
 
 	index = 0;
@@ -67,14 +67,14 @@ void	index_stack(t_stack *s)
 		index++;
 	}
 }
-
+// REMOVE/COMMENT OUT WHEN EVALUATING
 void	print_stack(t_stack *s)
 {
 	t_node	*current;
 
 	current = s->head;
-
-	printf("Stack %s, size: %d (first: %d, last: %d, min: %d, max:%d)\n", s->name, s->size, s->first->value, s->last->value, s->min->value, s->max->value);
+	if (current)
+		printf("Stack %s, size: %d(first: %d, last: %d, min: %d, max:%d)\n", s->name, s->size, s->first->value, s->last->value, s->min->value, s->max->value);
 	while (current)
 	{
 		ft_putnbr_fd(current->value, 1);

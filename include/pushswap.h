@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/09/17 23:25:22 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/18 18:46:35 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,17 @@ typedef struct s_stack
 	t_node		*max;
 }				t_stack;
 
+// MAIN
+void	init_stacks(t_stack *a, t_stack *b);
+void	fill_a(t_stack *a, char *val);
+void	fill_a_from_str(t_stack *a, char *str);
+
 // algorithm
-void	sort_three(t_stack *a);
 void	algorithm(t_stack *a, t_stack *b);
+t_node	*find_predecessor(t_node *n, t_stack *s);
+t_node	*find_successor(t_node *n, t_stack *s);
+void	fill_b(t_stack *a, t_stack *b);
+void	back_to_a(t_stack *a, t_stack *b);
 
 // functions
 void	sa(t_stack *a);
@@ -60,17 +68,14 @@ t_node	*ft_stacknew(int value);
 void	ft_stackadd_back(t_stack *stack, t_node *new_node);
 t_node	*ft_stacklast(t_stack *s);
 void	index_stack(t_stack *s);
-void	print_stack(t_stack *s);
 void	ft_stackclear(t_stack *s);
+void	print_stack(t_stack *s);
 
 // utils
-void	fill_a(t_stack *a, char *val);
+void	check_duplicates(int value, t_stack *s);
 bool	is_sorted(t_stack *a);
-void	fill_a_from_str(t_stack *a, char *str);
-void	check_duplicates(int value, t_node *n);
 void	find_values(t_stack *s);
 int		select_r_or_rr(t_node *n, t_stack *s);
-t_node *find_predecessor(t_node *n, t_stack *s);
-t_node *find_successor(t_node *n, t_stack *s);
+void	sort_three(t_stack *a);
 
 #endif
