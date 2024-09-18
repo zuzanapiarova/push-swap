@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/16 17:44:33 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/09/17 23:26:09 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	init_stacks(t_stack *a, t_stack *b)
 	b->name = "b";
 }
 
-
 int	main(int argc, char *argv[])
 {
 	int		i;
@@ -116,7 +115,8 @@ int	main(int argc, char *argv[])
 	print_stack(&a);
 	algorithm(&a, &b);
 	print_stack(&a);
-	//print_stack(&b);
+	ft_stackclear(&a);
+	ft_stackclear(&b);
 	// TODO: free both stacks and all their nodes
 	return (0);
 }

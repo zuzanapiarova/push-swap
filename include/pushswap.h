@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/09/17 19:33:57 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/17 23:25:22 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	ft_stackadd_back(t_stack *stack, t_node *new_node);
 t_node	*ft_stacklast(t_stack *s);
 void	index_stack(t_stack *s);
 void	print_stack(t_stack *s);
+void	ft_stackclear(t_stack *s);
 
 // utils
 void	fill_a(t_stack *a, char *val);

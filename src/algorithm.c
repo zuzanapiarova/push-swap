@@ -6,31 +6,16 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:40:11 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/09/17 23:10:54 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/17 23:45:02 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-//check with 2 1 3 6 5 8:
-/*
-   sa(a);
-   pb(a, b);
-   pb(a, b);
-   pb(a, b);
-   ra(a);
-   rb(b);
-   rra(a);
-   rrb(b);
-   sa(a);
-   pa(a, b);
-   pa(a, b);
-   pa(a, b);
-*/
-
 void sort_two(t_stack *s)
 {
-   if (is_sorted(s))
+
+    if (is_sorted(s))
        return ;
    if (s->size == 2)
        ra(s);
@@ -74,7 +59,6 @@ t_node *find_predecessor(t_node *n, t_stack *s)
            t_node *temp = s->head;
            int delta;
            t_node *predecessor;
-
            // find first smaller value
            while (temp->value > n->value)
                temp = temp->next;
@@ -93,7 +77,6 @@ t_node *find_predecessor(t_node *n, t_stack *s)
                }
                temp = temp->next;
            }
-           printf("el: %d, predecessor: %d\n", n->value, predecessor->value);
            return predecessor;
 }
 
@@ -128,7 +111,6 @@ t_node *find_successor(t_node *n, t_stack *s)
                }
                temp = temp->next;
            }
-           printf("el: %d, successor: %d\n", n->value, successor->value);
            return successor;
 }
 

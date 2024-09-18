@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 18:52:29 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/15 21:53:18 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/17 23:26:44 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,21 @@ void	print_stack(t_stack *s)
 		current = current->next;
 	}
 	ft_putchar_fd('\n', 1);
+}
+
+void	ft_stackclear(t_stack *s)
+{
+	t_node	*current_el;
+	t_node	*temp;
+
+	if (!s || !s->head)
+		return ;
+	current_el = s->head;
+	while (current_el)
+	{
+		temp = current_el->next;
+		free(current_el);
+		current_el = temp;
+	}
+	s->head = NULL;
 }
