@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:03:25 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/15 21:45:18 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/18 12:37:59 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void pa(t_stack *a, t_stack *b)
 {
     t_node *temp;
 
-    ft_putstr_fd("pb\n", 1);
+    ft_putstr_fd("pa\n", 1);
     if (b->head)
     {
         temp = b->head;
@@ -78,7 +78,7 @@ void	ra(t_stack *a)
 {
 	t_node	*temp;
 
-	ft_putstr_fd("rb\n", 1);
+	ft_putstr_fd("ra\n", 1);
 	if (a->head && a->head->next)
 	{
 		temp = a->head;

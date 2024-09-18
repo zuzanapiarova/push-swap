@@ -45,6 +45,4 @@ d. for bigger stacks: implement fill_b until we have only 3 elements left in a
 CONSIDER
 - "It's the fact that you are not only pushing the smallest number, but the smallest or biggest depending on which is 'closer' to the top that improved your algorithm performance. It's not because you separated it in chunks."
 
-do not forget, ra and rra keep the ordering of the elements, do not chage it - so 123456 ra ra ra is 456123
-
 ! or maybe we can push exactly half elements, sort both stacks (a asc, b desc) and then just combine them by pa to the correct spot

@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:43:45 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/15 21:46:17 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/18 12:21:21 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	sb(t_stack *b)
 	t_node	*temp1;
 	t_node	*temp2;
 
-	ft_putstr_fd("sa\n", 1);
+	ft_putstr_fd("sb\n", 1);
 	b->head->i++;
 	if (b->head && b->head->next)
 	{
@@ -98,7 +98,7 @@ void	rrb(t_stack *b)
 	t_node	*new_last;
 	t_node	*last;
 
-	ft_putstr_fd("rra\n", 1);
+	ft_putstr_fd("rrb\n", 1);
 	if (b->head && b->head->next)
 	{
 		new_last = b->head;

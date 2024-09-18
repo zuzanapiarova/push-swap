@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:26 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/17 21:24:22 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/18 11:07:03 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void find_values(t_stack *s)
 		s->min = temp;
 	index_stack(s);
 }
+
 // selects r or rr depending on which is faster to get the node n to top
 int	select_r_or_rr(t_node *n, t_stack *s)
 {
@@ -96,59 +97,3 @@ int	select_r_or_rr(t_node *n, t_stack *s)
 // OR implement index_from_top and index_from_bottom and depending on which is bigger, either ra, ra, ra (top) or rra, rra, rra(bottom)
 
 
-// finds node closest to our nodes value, if two nodes are both close, one smaller, one bigger, we keep the bigger one
-t_node *find_closest_neighbor(t_node *n, t_stack *s)
-{
-	// NOT FINISHED !!!!!!!!!!!!!
-	t_node *result;
-	t_node *temp;
-	int		delta;
-	int		temp_delta;
-
-	result = s->head;
-	temp = s->head;
-	delta = temp->value - n->value;
-	if (delta < 0)
-		delta *= -1;
-	while (temp)
-	{
-		temp_delta = temp->value - n->value;
-		if (temp_delta < 0)
-			temp_delta *= -1;
-		if (temp_delta < delta )
-			result = temp;
-		if (temp_delta == delta && temp->value > result->value)
-			result = temp;
-		temp = temp->next;
-	}
-	return (result);
-}
-
-// finds node in stack s that is the closest smaller value than our node
-t_node *find_smaller_neighbor(t_node *n, t_stack *s)
-{
-	// NOT FINISHED !!!!!!!!!!!!!
-	t_node *result;
-	t_node *temp;
-	int		delta;
-	int		curr_delta;
-
-	temp = s->head;
-	// result = s->head;
-	// delta = temp->value - n->value;
-	// if (delta < 0)
-	// 	delta *= -1;
-	delta = temp->value - n->value;
-	while (temp)
-	{
-		curr_delta = temp->value - n->value;
-		if (curr_delta < 0)
-			curr_delta *= -1;
-		if (curr_delta < delta && temp->value < n->value)
-			result = temp;
-		if (curr_delta == delta && temp->value > result->value)
-			result = temp;
-		temp = temp->next;
-	}
-	return (result);
-}

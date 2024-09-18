@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:40:11 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/09/17 23:45:02 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/18 12:19:50 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void sort_two(t_stack *s)
 {
-
     if (is_sorted(s))
        return ;
    if (s->size == 2)
@@ -27,6 +26,7 @@ void sort_three(t_stack *s)
    int second;
    int third;
 
+    printf("running A\n");
    if (is_sorted(s))
        return ;
    first = s->head->value;
@@ -35,6 +35,7 @@ void sort_three(t_stack *s)
    if (first < second && second > third && first < third)
    {
        rra(s);
+
        sa(s);
    }
    else if (first < second && second > third && first > third)
@@ -122,23 +123,21 @@ void fill_b(t_stack *a, t_stack *b)
    pb(a, b);
    while (a->size > 3)
    {
-       // get the biggest value to top as the new max/min must be placed on top of current max
+       // get the biggest value in b to top as the new max/min must be placed on top of current max
        if(a->first->value > b->max->value || a->first->value < b->min->value) // this condition works great
        {
            int operation = select_r_or_rr(b->max, b);
            while (b->first != b->max)
            {
-               if (operation == 1)
-                   rb(b);
-               else
-                   rrb(b);
+                if (operation == 1)
+                    rb(b);
+                else if (operation == 2)
+                    rrb(b);
            }
-           pb(a, b);
        }
-       //else place the element into its correct position by removing all other elements until its predecessor/successor and pb to top
+       //else place the element from top of b into its correct position by removing all other elements until its predecessor/successor and pb to top
        else
-       {
-        // now we always have to have predecessor because if it was the new min value (=without predecessor), we would handle it in the if case
+       {    // now we always have to have predecessor on top of b because if it was the new min value (=without predecessor), we would handle it in the if case
            t_node *predecessor = find_predecessor(a->head, b);
            int operation = select_r_or_rr(predecessor, b);
            while (b->first != predecessor)
@@ -148,8 +147,8 @@ void fill_b(t_stack *a, t_stack *b)
                else
                    rrb(b);
            }
-           pb(a, b);
-       }
+        }
+        pb(a, b);
    }
 }
 
@@ -187,7 +186,7 @@ void back_to_a(t_stack *a, t_stack *b)
         }
         pa(a, b);
     }
-   if (a->min == a->first)
+    if (a->min == a->first)
         printf("list is probably sorted\n");
    // find distance from a->first and a->min
    else if (a->min->i - a->first->i < a->last->i - a->max->i)
@@ -209,7 +208,6 @@ void    algorithm(t_stack *a, t_stack *b)
 {
    if (is_sorted(a))
    {
-       ft_putstr_fd("A sorted, B empty. Finished.\n", 1);
        return ;
    }
    if (a->size == 2) // we know this case is not sorted because before we checked if the list is sorted
@@ -232,8 +230,6 @@ void    algorithm(t_stack *a, t_stack *b)
        fill_b(a, b);
        sort_three(a);
    }
-   print_stack(a);
-   print_stack(b);
    back_to_a(a, b);
 }
 

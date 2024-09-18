@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/17 23:26:09 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/18 10:58:11 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,12 @@ int	main(int argc, char *argv[])
 			fill_a(&a, argv[i]);
 	}
 	find_values(&a);
-	print_stack(&a);
+	//print_stack(&a);
 	algorithm(&a, &b);
 	print_stack(&a);
-	ft_stackclear(&a);
-	ft_stackclear(&b);
+	//print_stack(&b);
+	// ft_stackclear(&a);
+	// ft_stackclear(&b);
 	// TODO: free both stacks and all their nodes
 	return (0);
 }
