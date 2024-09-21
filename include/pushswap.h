@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/09/18 18:46:35 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/09/21 09:02:35 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,19 @@ typedef struct s_node
 	int				i;
 }					t_node;
 
+typedef struct s_operation
+{
+	int ra;
+	int rb;
+	int rra;
+	int rrb;
+	int rr;
+	int rrr;
+	int count;
+	int rrcount;
+	int rrrcount;
+}			t_operation;
+
 typedef struct s_stack
 {
 	t_node		*head;
@@ -36,12 +49,14 @@ typedef struct s_stack
 	t_node		*last;
 	t_node		*min;
 	t_node		*max;
+	t_operation		*cheapest_o;
 }				t_stack;
 
 // MAIN
 void	init_stacks(t_stack *a, t_stack *b);
 void	fill_a(t_stack *a, char *val);
 void	fill_a_from_str(t_stack *a, char *str);
+// and main
 
 // algorithm
 void	algorithm(t_stack *a, t_stack *b);
