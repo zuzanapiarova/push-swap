@@ -6,7 +6,7 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/18 18:56:33 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/09/20 20:22:03 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	main(int argc, char *argv[])
 	}
 	find_values(&a);
 	algorithm(&a, &b);
-	print_stack(&a);
+	//print_stack(&a);
 	ft_stackclear(&a);
 	ft_stackclear(&b);
 	return (0);
