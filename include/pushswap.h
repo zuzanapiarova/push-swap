@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/09/21 09:02:35 by zuzanapiaro      ###   ########.fr       */
-=======
-/*   Updated: 2024/09/20 20:11:35 by zpiarova         ###   ########.fr       */
->>>>>>> 2b7fc0d (finished almost)
+/*   Updated: 2024/09/23 17:53:09 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +29,6 @@ typedef struct s_node
 
 typedef struct s_operation
 {
-<<<<<<< HEAD
 	int ra;
 	int rb;
 	int rra;
@@ -43,17 +38,6 @@ typedef struct s_operation
 	int count;
 	int rrcount;
 	int rrrcount;
-=======
-	int	ra;
-	int	rb;
-	int	rra;
-	int	rrb;
-	int	rr;
-	int	rrr;
-	int	count;
-	int	rrcount;
-	int	rrrcount;
->>>>>>> 2b7fc0d (finished almost)
 }			t_operation;
 
 typedef struct s_stack
@@ -65,11 +49,7 @@ typedef struct s_stack
 	t_node		*last;
 	t_node		*min;
 	t_node		*max;
-<<<<<<< HEAD
 	t_operation		*cheapest_o;
-=======
-	t_operation	*cheapest_o;
->>>>>>> 2b7fc0d (finished almost)
 }				t_stack;
 
 // MAIN
