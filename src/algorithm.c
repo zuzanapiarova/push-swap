@@ -6,7 +6,7 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:50:53 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/23 18:29:23 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/09/23 20:16:03 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,48 +79,45 @@ t_node	*find_successor(t_node *n, t_stack *s)
 	}
 	return (successor);
 }
+// do not forget to set operation count for a->cheapest_o always after calling this function
+void	set_operation(t_stack *a, int ra, int rb, int rra, int rrb)
+{
+	a->cheapest_o->ra = ra;
+	a->cheapest_o->rb = rb;
+	a->cheapest_o->rr = 0;
+	a->cheapest_o->rra = rra;
+	a->cheapest_o->rrb = rrb;
+	a->cheapest_o->rrr = 0;
+}
+
+
 
 void find_least_operations(t_stack *a, t_stack *b)
 {
-   t_operation c_o; //current operation - stores how many operations ra, rb, rra, rrb, rr, rrr it takes to get two corresponding elements to top of each stack
-   t_node      *temp;
-   t_node      *friend;
-   int radup;
-   int rbdup;
-   int rradup;
-   int rrbdup;
+	t_operation	c_o; //current operation - stores how many operations ra, rb, rra, rrb, rr, rrr it takes to get two corresponding elements to top of each stack
+	t_operation	d_o;
+	t_node		*temp;
+	t_node		*friend;
 
-    temp = a->head;
-    a->cheapest_o->count = a->size + b->size;
-    // a->cheapest_o->ra = 0;
-    // a->cheapest_o->rb = 0;
-    // a->cheapest_o->rr = 0;
-    // a->cheapest_o->rra = 0;
-    // a->cheapest_o->rrb = 0;
-    // a->cheapest_o->rrr = 0;
-   while (temp) // calculate this for EVERY element from a
-   {
-       if (temp->value > b->max->value || temp->value < b->min->value)
-           friend = b->max;
-       else
-           friend = find_predecessor(temp, b);
-       c_o.ra = temp->i;
-       c_o.rb = friend->i;
-       c_o.rra = a->size - temp->i;
-       c_o.rrb = b->size - friend->i;
-        radup = c_o.ra;
-        rbdup = c_o.rb;
-        rradup = c_o.rra;
-        rrbdup = c_o.rrb;
+	temp = a->head;
+	a->cheapest_o->count = a->size + b->size;
+	while (temp)
+	{
+		if (temp->value > b->max->value || temp->value < b->min->value)
+			friend = b->max;
+		else
+			friend = find_predecessor(temp, b);
+		c_o.ra = temp->i;
+		c_o.rb = friend->i;
+		c_o.rra = a->size - temp->i;
+		c_o.rrb = b->size - friend->i;
+        d_o.ra = c_o.ra;
+        d_o.rb = c_o.rb;
+        d_o.rra = c_o.rra;
+        d_o.rrb = c_o.rrb;
        if (c_o.ra == 0 && c_o.rb == 0) //we know it is cheapest because it takes 0 operations to get the elements to top
        {
-           a->cheapest_o->ra = 0;
-           a->cheapest_o->rb = 0;
-           a->cheapest_o->rr = 0;
-           a->cheapest_o->rra = 0;
-           a->cheapest_o->rrb = 0;
-           a->cheapest_o->rrr = 0;
-           a->cheapest_o->count = 0;
+           set_operation(a, 0, 0, 0, 0);
            return ;
        }
        // try to get rr and set ra and rb accordingly
@@ -174,25 +171,21 @@ void find_least_operations(t_stack *a, t_stack *b)
        c_o.rrcount = c_o.ra + c_o.rb + c_o.rr;
        c_o.rrrcount = c_o.rra + c_o.rrb + c_o.rrr;
        // now compare if combinations ra+rrb and rb+rra do not take less operations than the count
-       if (((radup + rrbdup) < c_o.rrcount) && ((radup + rrbdup) < c_o.rrrcount) && ((radup + rrbdup) < a->cheapest_o->count))
+       if (((d_o.ra + d_o.rrb) < c_o.rrcount) && ((d_o.ra + d_o.rrb) < c_o.rrrcount) && ((d_o.ra + d_o.rrb) < a->cheapest_o->count))
        {
-            a->cheapest_o->ra = radup;
-            a->cheapest_o->rb = 0;
-            a->cheapest_o->rr = 0;
-            a->cheapest_o->rra = 0;
-            a->cheapest_o->rrb = rrbdup;
-            a->cheapest_o->rrr = 0;
-            a->cheapest_o->count = radup + rrbdup;
+            set_operation(a, d_o.ra, 0, 0, d_o.rrb);
+            a->cheapest_o->count = d_o.ra + d_o.rrb;
        }
-        else if (((rbdup + rradup) < c_o.rrcount) && ((rbdup + rradup) < c_o.rrrcount) && ((rbdup + rradup) < a->cheapest_o->count))
+        else if (((d_o.rb + d_o.rra) < c_o.rrcount) && ((d_o.rb + d_o.rra) < c_o.rrrcount) && ((d_o.rb + d_o.rra) < a->cheapest_o->count))
        {
-            a->cheapest_o->ra = 0;
-            a->cheapest_o->rb = rbdup;
-            a->cheapest_o->rr = 0;
-            a->cheapest_o->rra = rradup;
-            a->cheapest_o->rrb = 0;
-            a->cheapest_o->rrr = 0;
-            a->cheapest_o->count = rbdup + rradup;
+            // a->cheapest_o->ra = 0;
+            // a->cheapest_o->rb = d_o.rb;
+            // a->cheapest_o->rr = 0;
+            // a->cheapest_o->rra = d_o.rra;
+            // a->cheapest_o->rrb = 0;
+            // a->cheapest_o->rrr = 0;
+			set_operation(a, 0, d_o.rb, d_o.rra, 0);
+            a->cheapest_o->count = d_o.rb + d_o.rra;
        }
        // select which combination takes least operations
        else if (c_o.rrcount < c_o.rrrcount && c_o.rrcount < a->cheapest_o->count)
@@ -220,135 +213,63 @@ void find_least_operations(t_stack *a, t_stack *b)
    }
 }
 
+
+
+
+
+
+
+
+
+
 void perform_operations(t_stack *a, t_stack *b)
 {
-   while (a->cheapest_o->ra > 0)
-   {
-       ra(a);
-       a->cheapest_o->ra--;
-   }
-   while (a->cheapest_o->rb > 0)
-   {
-       rb(b);
-       a->cheapest_o->rb--;
-   }
-   while (a->cheapest_o->rr > 0)
-   {
-       rr(a, b);
-       a->cheapest_o->rr--;
-   }
-   while (a->cheapest_o->rra > 0)
-   {
-       rra(a);
-       a->cheapest_o->rra--;
-   }
-   while (a->cheapest_o->rrb > 0)
-   {
-       rrb(b);
-       a->cheapest_o->rrb--;
-   }
-   while (a->cheapest_o->rrr > 0)
-   {
-       rrr(a, b);
-       a->cheapest_o->rrr--;
-   }
+	while (a->cheapest_o->ra-- > 0)
+		ra(a);
+	while (a->cheapest_o->rb-- > 0)
+		rb(b);
+	while (a->cheapest_o->rr-- > 0)
+		rr(a, b);
+	while (a->cheapest_o->rra-- > 0)
+		rra(a);
+	while (a->cheapest_o->rrb-- > 0)
+		rrb(b);
+	while (a->cheapest_o->rrr-- > 0)
+		rrr(a, b);
 }
 
 // B is filled in separate partitions, each sorted descending
 // if added element is new min/max, we put it above the biggest number in b
 // for other elements, we add it above its predecessor - closest smaller element
-void    fill_b(t_stack *a, t_stack *b)
+void	fill_b(t_stack *a, t_stack *b)
 {
-   pb(a, b);
-   pb(a, b);
-   while (a->size > 3)
-   {
-       find_least_operations(a, b);
-       perform_operations(a, b);
-       pb(a, b);
-   }
+	pb(a, b);
+	pb(a, b);
+	while (a->size > 3)
+	{
+		find_least_operations(a, b);
+		perform_operations(a, b);
+		pb(a, b);
+	}
 }
 
 // when this function starts, a has 3 already sorted elements
 // b has multiple sorted descending blocks, that may not be in order
-// a. if (successor && a->head != b->head + 1)
-// --> this puts the closest bigger element to top so we can pa to the top in correct order
-/* void    back_to_a(t_stack *a, t_stack *b)
-{
-   int     operation;
-   t_node  *successor;
-
-   while (b->size > 0)
-   {
-       successor = find_successor(b->head, a);
-	   if (a->head->value == b->head->value + 1)
-	   {
-			pa(a, b);
-			continue ;
-	   }
-       else if (successor)
-       {
-           operation = select_r_or_rr(successor, a);
-           while (a->first != successor)
-           {
-               if (operation == 1)
-                   ra(a);
-               else
-                   rra(a);
-           }
-       }
-       else
-       {
-           operation = select_r_or_rr(a->min, a);
-           while (a->first != a->min)
-           {
-               if (operation == 1)
-                   ra(a);
-               else
-                   rra(a);
-           }
-       }
-       pa(a, b);
-   }
-   if (a->min->i - a->first->i < a->last->i - a->max->i) // find distance from a->first and a->min
-   {
-       while (a->first != a->min) // number of elements that need to go to the end are smaller so we ra
-           ra(a);
-   }
-   else
-   {
-       while (a->last != a->max) // number of elements that need to go to the end is bigger so we rra from back
-           rra(a);
-   }
-} */
-
+// a. if (a->min->i - a->first->i < (a->size) / 2)
+// --> now a is sorted in muliple parts, so just find if firts is not min or last is not max
+// if distance a->first and a->min is smaller than half of a size ra, else rra
 void	back_to_a(t_stack *a, t_stack *b)
 {
-	int		operation;
-	t_node *successor;
+	t_node	*successor;
 
 	while (b->head)
 	{
 		successor = find_successor(b->head, a);
-		if (!successor || a->head->value == b->head->value + 1)
-		{
-			pa(a, b);
-			continue ;
-		}
-		else/*  if (successor) */
-		{
-			operation = select_r_or_rr(successor, a);
-			while (a->first != successor)
-			{
-				if (operation == 1)
-					ra(a);
-				else
-					rra(a);
-			}
-		}
+		if (successor && a->head->value != b->head->value + 1)
+			do_r_or_rr(successor, a);
 		pa(a, b);
 	}
-	if (a->min->i - a->first->i < a->last->i - a->max->i) // find distance from a->first and a->min
+	if (a->min->i - a->first->i <= (a->size) / 2)
 	{
 		while (a->first != a->min) // number of elements that need to go to the end are smaller so we ra
 			ra(a);
@@ -360,42 +281,29 @@ void	back_to_a(t_stack *a, t_stack *b)
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-void    algorithm(t_stack *a, t_stack *b)
+void	algorithm(t_stack *a, t_stack *b)
 {
-   if (is_sorted(a))
-       return ;
-   if (a->size == 2)
-           ra(a);
-   else if (a->size == 3)
-       sort_three(a);
-   else if (a->size == 4)
-   {
-       pb(a, b);
-       sort_three(a);
-   }
-   else if (a->size == 5)
-   {
-       pb(a, b);
-       pb(a, b);
-       sort_three(a);
-   }
-   else
-   {
-       fill_b(a, b);
-       sort_three(a);
-   }
-   back_to_a(a, b);
+	if (is_sorted(a))
+		return ;
+	if (a->size == 2)
+		ra(a);
+	else if (a->size == 3)
+		sort_three(a);
+	else if (a->size == 4)
+	{
+		pb(a, b);
+		sort_three(a);
+	}
+	else if (a->size == 5)
+	{
+		pb(a, b);
+		pb(a, b);
+		sort_three(a);
+	}
+	else
+	{
+		fill_b(a, b);
+		sort_three(a);
+	}
+	back_to_a(a, b);
 }

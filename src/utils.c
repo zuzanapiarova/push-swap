@@ -6,7 +6,7 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:26 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/18 19:02:19 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:15:57 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,23 @@ int	select_r_or_rr(t_node *n, t_stack *s)
 	else
 		operation = 2;
 	return (operation);
+}
+
+void do_r_or_rr(t_node *n, t_stack *s)
+{
+	int	operation;
+
+	if (n->i <= s->size / 2)
+		operation = 1;
+	else
+		operation = 2;
+	while (s->first != n)
+	{
+		if (operation == 1)
+			ra(s);
+		else
+			rra(s);
+	}
 }
 
 void	sort_three(t_stack *s)

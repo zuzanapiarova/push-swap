@@ -6,7 +6,7 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/09/23 17:53:09 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:16:34 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ bool	is_sorted(t_stack *a);
 void	find_values(t_stack *s);
 int		select_r_or_rr(t_node *n, t_stack *s);
 void	sort_three(t_stack *a);
+void do_r_or_rr(t_node *n, t_stack *s);
 
 #endif
