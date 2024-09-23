@@ -6,7 +6,7 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 18:52:29 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/18 19:01:17 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/09/23 20:56:02 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ void	print_stack(t_stack *s)
 
 	current = s->head;
 	if (current)
-		printf("Stack %s, size: %d(first: %d, last: %d, min: %d, max:%d)\n", s->name, s->size, s->first->value, s->last->value, s->min->value, s->max->value);
+		printf("Stack %s, size: %d(first: %d, last: %d, min: %d, max:%d)\n",
+			s->name, s->size, s->first->value, s->last->value, s->min->value,
+			s->max->value);
 	while (current)
 	{
 		ft_putnbr_fd(current->value, 1);
