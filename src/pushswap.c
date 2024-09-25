@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/23 20:57:48 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:42:19 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	init_stacks(t_stack *a, t_stack *b)
 	b->head = NULL;
 	b->size = 0;
 	b->name = "b";
+	//a->cheapest_o = NULL;
 }
 
 int	main(int argc, char *argv[])
@@ -115,8 +116,11 @@ int	main(int argc, char *argv[])
 	}
 	find_values(&a);
 	algorithm(&a, &b);
-	// print_stack(&a);
+	print_stack(&a);
 	ft_stackclear(&a);
 	ft_stackclear(&b);
 	return (0);
 }
+
+// TODO: max int value
+// saving to stack from str sometimes not work properly

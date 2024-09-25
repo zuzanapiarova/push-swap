@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:26 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/23 19:15:57 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:45:06 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,68 @@ void do_r_or_rr(t_node *n, t_stack *s)
 		else
 			rra(s);
 	}
+}
+
+// find the closest predecessor to node n in stack s
+// a. while (temp->value > n->value)
+// --> first while loop here finds first smaller value
+t_node	*find_predecessor(t_node *n, t_stack *s)
+{
+	t_node	*temp;
+	int		delta;
+	t_node	*predecessor;
+
+    predecessor = NULL;
+	if (!s->head)
+		return (NULL);
+	temp = s->head;
+	while (temp->value > n->value)
+		temp = temp->next;
+    if (temp == NULL)
+		return (NULL);
+	if (temp->value < n->value)
+		predecessor = temp;
+	delta = n->value - predecessor->value;
+	temp = temp->next;
+	while (temp)
+	{
+		if (n->value - temp->value < delta && temp->value < n->value)
+			predecessor = temp;
+		delta = n->value - predecessor->value;
+		temp = temp->next;
+	}
+	return (predecessor);
+}
+
+// find the successor(closest bigger element) to node n in stack s
+// a. while (temp && temp->value < n->value)
+// --> first while loop here finds first bigger value than our element
+t_node	*find_successor(t_node *n, t_stack *s)
+{
+	t_node	*temp;
+	int		delta;
+	t_node	*successor;
+
+    successor = NULL;
+	if (!s->head)
+		return (NULL);
+	temp = s->head;
+	while (temp && temp->value < n->value)
+		temp = temp->next;
+	if (temp == NULL)
+		return (NULL);
+    if (temp->value > n->value)
+		successor = temp;
+	delta = successor->value - n->value;
+	temp = temp->next;
+	while (temp)
+	{
+		if (temp->value - n->value < delta && temp->value > n->value)
+			successor = temp;
+		delta = successor->value - n->value;
+		temp = temp->next;
+	}
+	return (successor);
 }
 
 void	sort_three(t_stack *s)
