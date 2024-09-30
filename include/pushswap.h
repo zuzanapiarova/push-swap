@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/09/25 20:31:36 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/30 23:44:23 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct s_stack
 	t_node		*min;
 	t_node		*max;
 	t_operation	*cheapest_o;
-	t_operation	*c_o;
 }				t_stack;
 
 // MAIN
@@ -61,10 +60,9 @@ void	fill_a_from_str(t_stack *a, char *str);
 
 // algorithm
 void	algorithm(t_stack *a, t_stack *b);
-t_node	*find_predecessor(t_node *n, t_stack *s);
-t_node	*find_successor(t_node *n, t_stack *s);
 void	fill_b(t_stack *a, t_stack *b);
 void	back_to_a(t_stack *a, t_stack *b);
+void set_insides(t_operation *c_o, t_operation *c_o_copy, t_stack *a);
 
 // functions
 void	sa(t_stack *a);
@@ -91,10 +89,11 @@ void	print_stack(t_stack *s);
 void	check_duplicates(int value, t_stack *s);
 bool	is_sorted(t_stack *a);
 void	find_values(t_stack *s);
-int		select_r_or_rr(t_node *n, t_stack *s);
 void	sort_three(t_stack *a);
 void do_r_or_rr(t_node *n, t_stack *s);
-void calculate_rr(t_operation *op);
-void calculate_rrr(t_operation *op);
+int calculate_rr(t_operation *op);
+int calculate_rrr(t_operation *op);
+t_node	*find_predecessor(t_node *n, t_stack *s);
+t_node	*find_successor(t_node *n, t_stack *s);
 
 #endif

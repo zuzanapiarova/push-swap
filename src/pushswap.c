@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/25 15:42:19 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/30 15:06:36 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	init_stacks(t_stack *a, t_stack *b)
 	b->head = NULL;
 	b->size = 0;
 	b->name = "b";
-	//a->cheapest_o = NULL;
 }
 
 int	main(int argc, char *argv[])

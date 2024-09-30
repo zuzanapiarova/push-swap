@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:26 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/25 15:45:06 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/30 15:11:16 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,7 @@ void	find_values(t_stack *s)
 	index_stack(s);
 }
 
-// returns r(1) or rr(2) depending on which is faster to get the node n to top
-// OR implement index_from_top and index_from_bottom and depending on which
-// is bigger, either ra, ra, ra (top) or rra, rra, rra(bottom)
-int	select_r_or_rr(t_node *n, t_stack *s)
-{
-	int	operation;
-
-	if (n->i <= s->size / 2)
-		operation = 1;
-	else
-		operation = 2;
-	return (operation);
-}
-
+// performs that operation to get given element to top which is cheaper
 void do_r_or_rr(t_node *n, t_stack *s)
 {
 	int	operation;

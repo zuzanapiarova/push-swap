@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:50:53 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/25 20:31:40 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/09/30 23:44:36 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,9 @@
 // o count 559
 ////////////////////////////////////////////////////////////////////
 
-void	set_cheapest_operation(t_stack *a, int ra, int rb, int rra, int rrb)
+int calculate_rr(t_operation *op)
 {
-	a->cheapest_o->ra = ra;
-	a->cheapest_o->rb = rb;
-	a->cheapest_o->rra = rra;
-	a->cheapest_o->rrb = rrb;
-	// a->cheapest_o->rr = 0;
-	// a->cheapest_o->rrr = 0;
-}
-
-void calculate_rr(t_operation *op)
-{
-		if ((op->ra > 0 && op->rb == 0) || (op->rb == 0 && op->ra > 0))
+        if ((op->ra > 0 && op->rb == 0) || (op->rb == 0 && op->ra > 0))
 			op->rr = 0;
 		else
 		{
@@ -51,11 +41,12 @@ void calculate_rr(t_operation *op)
 				op->rb = 0;
 			}
 		}
+    return (op->ra + op->rb + op->rr);
 }
 
-void    calculate_rrr(t_operation *op)
+int    calculate_rrr(t_operation *op)
 {
-		if ((op->rra > 0 && op->rrb == 0) || (op->rrb == 0 && op->rra > 0))
+        if ((op->rra > 0 && op->rrb == 0) || (op->rrb == 0 && op->rra > 0))
 			op->rrr = 0;
 		else
 		{
@@ -78,48 +69,52 @@ void    calculate_rrr(t_operation *op)
 				op->rrb = 0;
 			}
 		}
+    return (op->rra + op->rrb + op->rrr);
+}
+
+// set values of the operation struct passed as first parameter, values for operations ra, rb, rra, rrb are in parameters
+// !! it sets rr and rrr to 0 !
+int set_operation(t_operation *op, int ra, int rb, int rra, int rrb)
+{
+   op->ra = ra;
+   op->rb = rb;
+   op->rra = rra;
+   op->rrb = rrb;
+//    if (ra == 0 && rb == 0 && rra != 0 && rrb != 0)
+//    {
+//         op->rr = 0;
+//         calculate_rrr(op);
+//         return (op->rra + op->rrb + op->rrr);
+//    }
+//    else if (ra != 0 && rb != 0 && rra == 0 && rrb == 0)
+//    {
+//         op->rrr = 0;
+//         calculate_rr(op);
+//         return (op->ra + op->rb + op->rr);
+//    }
+//    else
+//   {
+        op->rr = 0;
+        op->rrr = 0;
+//   }
+   return (op->ra + op->rb + op->rra + op->rrb);
 }
 
 ////////////////////
 
-/* void check_opposites(t_stack *a)
+// set_operation(a->c_o, temp->i, friend->i, (a->size - temp->i), (b->size - friend->i));
+// --> this sets how many ra, rb, rra, rrb it takes to get element to top counted from its index
+void	find_cheapest_operation(t_stack *a, t_stack *b)
 {
-    	t_operation	d_o;
-    	d_o.ra = a->c_o->ra;
-		d_o.rb = a->c_o->rb;
-		d_o.rra = a->c_o->rra;
-		d_o.rrb = a->c_o->rrb;
-
-        if (((d_o.ra + d_o.rrb) < a->c_o->rrcount) && ((d_o.ra + d_o.rrb) < a->c_o->rrrcount) && ((d_o.ra + d_o.rrb) < a->cheapest_o->count))
-		{
-			//set_operation(a, d_o.ra, 0, 0, d_o.rrb);
-            a->cheapest_o->ra = d_o.ra;
-			a->cheapest_o->rb = 0;
-			a->cheapest_o->rr = 0;
-			a->cheapest_o->rra = 0;
-			a->cheapest_o->rrb = d_o.rrb;
-			a->cheapest_o->rrr = 0;
-			a->cheapest_o->count = d_o.ra + d_o.rrb;
-		}
-		else if (((d_o.rb + d_o.rra) < a->c_o->rrcount) && ((d_o.rb + d_o.rra) < a->c_o->rrrcount) && ((d_o.rb + d_o.rra) < a->cheapest_o->count))
-		{
-			a->cheapest_o->ra = 0;
-			a->cheapest_o->rb = d_o.rb;
-			a->cheapest_o->rr = 0;
-			a->cheapest_o->rra = d_o.rra;
-			a->cheapest_o->rrb = 0;
-			a->cheapest_o->rrr = 0;
-			a->cheapest_o->count = d_o.rb + d_o.rra;
-		}
-} */
-
-
-void	find_least_operations(t_stack *a, t_stack *b)
-{
-	t_operation	d_o;
+    t_operation *c_o;
+    t_operation *c_o_copy;
 	t_node		*temp;
 	t_node		*friend;
 
+    c_o = malloc(sizeof(t_operation));
+    c_o_copy = malloc(sizeof(t_operation));
+    if (!c_o || !c_o_copy)
+        return ;
     temp = a->head;
 	a->cheapest_o->count = a->size + b->size;
 	while (temp)
@@ -128,64 +123,50 @@ void	find_least_operations(t_stack *a, t_stack *b)
 			friend = b->max;
 		else
 			friend = find_predecessor(temp, b);
-		a->c_o->ra = temp->i;
-		a->c_o->rb = friend->i;
-		a->c_o->rra = a->size - temp->i;
-		a->c_o->rrb = b->size - friend->i;
-		d_o.ra = a->c_o->ra;
-		d_o.rb = a->c_o->rb;
-		d_o.rra = a->c_o->rra;
-		d_o.rrb = a->c_o->rrb;
-		if (a->c_o->ra == 0 && a->c_o->rb == 0) // we know it is cheapest because it takes 0 operations to get the elements to top
-		{
-            set_cheapest_operation(a, 0, 0, 0, 0);
-			a->cheapest_o->rr = 0;
-			a->cheapest_o->rrr = 0;
-			a->cheapest_o->count = 0;
-			return ;
-		}
-        calculate_rr(a->c_o);
-        calculate_rrr(a->c_o);
-		a->c_o->rrcount = a->c_o->ra + a->c_o->rb + a->c_o->rr;
-		a->c_o->rrrcount = a->c_o->rra + a->c_o->rrb + a->c_o->rrr;
-		// first compare if combinations ra+rrb and rb+rra do not take less operations than the count
-		if (((d_o.ra + d_o.rrb) < a->c_o->rrcount) && ((d_o.ra + d_o.rrb) < a->c_o->rrrcount) && ((d_o.ra + d_o.rrb) < a->cheapest_o->count))
-		{
-            set_cheapest_operation(a, d_o.ra, 0, 0, d_o.rrb);
-			a->cheapest_o->rr = 0;
-			a->cheapest_o->rrr = 0;
-			a->cheapest_o->count = d_o.ra + d_o.rrb;
-		}
-		else if (((d_o.rb + d_o.rra) < a->c_o->rrcount) && ((d_o.rb + d_o.rra) < a->c_o->rrrcount) && ((d_o.rb + d_o.rra) < a->cheapest_o->count))
-		{
-            set_cheapest_operation(a, 0, d_o.rb, d_o.rra, 0);
-			a->cheapest_o->rr = 0;
-			a->cheapest_o->rrr = 0;
-			a->cheapest_o->count = d_o.rb + d_o.rra;
-		}
-		else if (a->c_o->rrcount < a->c_o->rrrcount && a->c_o->rrcount < a->cheapest_o->count)
-		{
-            set_cheapest_operation(a, a->c_o->ra, a->c_o->rb, 0, 0);
-			a->cheapest_o->rr = a->c_o->rr;
-			a->cheapest_o->rrr = 0;
-			a->cheapest_o->count = a->c_o->rrcount;
-		}
-		else if (a->c_o->rrrcount < a->c_o->rrcount && a->c_o->rrrcount < a->cheapest_o->count)
-		{
-            set_cheapest_operation(a, 0, 0, a->c_o->rra, a->c_o->rrb);
-			a->cheapest_o->rr = 0;
-			a->cheapest_o->rrr = a->c_o->rrr;
-			a->cheapest_o->count = a->c_o->rrrcount;
-		}
+        set_operation(c_o, temp->i, friend->i, (a->size - temp->i), (b->size - friend->i));
+        set_operation(c_o_copy, c_o->ra, c_o->rb, c_o->rra, c_o->rrb);
+        set_insides(c_o, c_o_copy, a);
 		temp = temp->next;
 	}
+    free(c_o);
+    free(c_o_copy);
 }
-// printf("el: %d, fr: %d, ra: %d, rb: %d, rr: %d, rra: %d, rrb: %d. rrr: %d\n", temp->value, friend->value, a->cheapest_o->ra, a->cheapest_o->rb, a->cheapest_o->rr, a->cheapest_o->rra, a->cheapest_o->rrb, a->cheapest_o->rrr);
 
+
+
+
+
+void set_insides(t_operation *c_o, t_operation *c_o_copy, t_stack *a)
+{
+        if (c_o->ra == 0 && c_o->rb == 0) // we know it is cheapest because it takes 0 operations to get the elements to top
+		{
+            a->cheapest_o->count = set_operation(a->cheapest_o, 0, 0, 0, 0);
+			return ;
+		}
+        c_o->rrcount = calculate_rr(c_o);
+        c_o->rrrcount = calculate_rrr(c_o);
+		// first compare if combinations ra+rrb and rb+rra do not take less operations than the count
+		if (((c_o_copy->ra + c_o_copy->rrb) < c_o->rrcount) && ((c_o_copy->ra + c_o_copy->rrb) < c_o->rrrcount) && ((c_o_copy->ra + c_o_copy->rrb) < a->cheapest_o->count))
+            a->cheapest_o->count = set_operation(a->cheapest_o, c_o_copy->ra, 0, 0, c_o_copy->rrb);
+		else if (((c_o_copy->rb + c_o_copy->rra) < c_o->rrcount) && ((c_o_copy->rb + c_o_copy->rra) < c_o->rrrcount) && ((c_o_copy->rb + c_o_copy->rra) < a->cheapest_o->count))
+            a->cheapest_o->count = set_operation(a->cheapest_o, 0, c_o_copy->rb, c_o_copy->rra, 0);
+		else if (c_o->rrcount < c_o->rrrcount && c_o->rrcount < a->cheapest_o->count)
+		{
+            a->cheapest_o->count = set_operation(a->cheapest_o, c_o->ra, c_o->rb, 0, 0) + c_o->rr;
+			a->cheapest_o->rr = c_o->rr;
+			a->cheapest_o->rrr = 0;
+		}
+		else if (c_o->rrrcount < c_o->rrcount && c_o->rrrcount < a->cheapest_o->count)
+		{
+            a->cheapest_o->count = set_operation(a->cheapest_o, 0, 0, c_o->rra, c_o->rrb) + c_o->rrr;
+			a->cheapest_o->rr = 0;
+			a->cheapest_o->rrr = c_o->rrr;
+		}
+}
 
 ////////////////////////////////////////////
 
-void	perform_operations(t_stack *a, t_stack *b)
+void	perform_operation(t_stack *a, t_stack *b)
 {
 	while (a->cheapest_o->ra-- > 0)
 		ra(a);
@@ -210,8 +191,8 @@ void	fill_b(t_stack *a, t_stack *b)
 	pb(a, b);
 	while (a->size > 3)
 	{
-		find_least_operations(a, b);
-		perform_operations(a, b);
+		find_cheapest_operation(a, b);
+		perform_operation(a, b);
 		pb(a, b);
 	}
 }
@@ -270,6 +251,12 @@ void	algorithm(t_stack *a, t_stack *b)
 	}
 	back_to_a(a, b);
 }
+
+
+
+
+
+
 
 
 
@@ -500,3 +487,70 @@ void	find_least_operations(t_stack *a, t_stack *b)
 	}
 }
 */
+
+
+// WORKS  -short, a->cheapest is pointer, c_o is pointer
+/*
+void	find_least_operations(t_stack *a, t_stack *b)
+{
+	t_operation	d_o;
+	t_node		*temp;
+	t_node		*friend;
+
+    temp = a->head;
+	a->cheapest_o->count = a->size + b->size;
+	while (temp)
+	{
+		if (temp->value > b->max->value || temp->value < b->min->value)
+			friend = b->max;
+		else
+			friend = find_predecessor(temp, b);
+        set_operation(a->c_o, temp->i, friend->i, (a->size - temp->i), (b->size - friend->i));
+		d_o.ra = a->c_o->ra;
+		d_o.rb = a->c_o->rb;
+		d_o.rra = a->c_o->rra;
+		d_o.rrb = a->c_o->rrb;
+		if (a->c_o->ra == 0 && a->c_o->rb == 0) // we know it is cheapest because it takes 0 operations to get the elements to top
+		{
+            set_operation(a->cheapest_o, 0, 0, 0, 0);
+			a->cheapest_o->rr = 0;
+			a->cheapest_o->rrr = 0;
+			a->cheapest_o->count = 0;
+			return ;
+		}
+        calculate_rr(a->c_o);
+        calculate_rrr(a->c_o);
+		a->c_o->rrcount = a->c_o->ra + a->c_o->rb + a->c_o->rr;
+		a->c_o->rrrcount = a->c_o->rra + a->c_o->rrb + a->c_o->rrr;
+		// first compare if combinations ra+rrb and rb+rra do not take less operations than the count
+		if (((d_o.ra + d_o.rrb) < a->c_o->rrcount) && ((d_o.ra + d_o.rrb) < a->c_o->rrrcount) && ((d_o.ra + d_o.rrb) < a->cheapest_o->count))
+		{
+            set_operation(a->cheapest_o, d_o.ra, 0, 0, d_o.rrb);
+			a->cheapest_o->rr = 0;
+			a->cheapest_o->rrr = 0;
+			a->cheapest_o->count = d_o.ra + d_o.rrb;
+		}
+		else if (((d_o.rb + d_o.rra) < a->c_o->rrcount) && ((d_o.rb + d_o.rra) < a->c_o->rrrcount) && ((d_o.rb + d_o.rra) < a->cheapest_o->count))
+		{
+            set_operation(a->cheapest_o, 0, d_o.rb, d_o.rra, 0);
+			a->cheapest_o->rr = 0;
+			a->cheapest_o->rrr = 0;
+			a->cheapest_o->count = d_o.rb + d_o.rra;
+		}
+		else if (a->c_o->rrcount < a->c_o->rrrcount && a->c_o->rrcount < a->cheapest_o->count)
+		{
+            set_operation(a->cheapest_o, a->c_o->ra, a->c_o->rb, 0, 0);
+			a->cheapest_o->rr = a->c_o->rr;
+			a->cheapest_o->rrr = 0;
+			a->cheapest_o->count = a->c_o->rrcount;
+		}
+		else if (a->c_o->rrrcount < a->c_o->rrcount && a->c_o->rrrcount < a->cheapest_o->count)
+		{
+            set_operation(a->cheapest_o, 0, 0, a->c_o->rra, a->c_o->rrb);
+			a->cheapest_o->rr = 0;
+			a->cheapest_o->rrr = a->c_o->rrr;
+			a->cheapest_o->count = a->c_o->rrrcount;
+		}
+		temp = temp->next;
+	}
+}*/
