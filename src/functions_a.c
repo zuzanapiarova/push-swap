@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   functions_a.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:03:25 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/20 16:08:40 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/01 17:25:40 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
 // sa (swap a): Swap the first 2 elements at the top of stack a.
-//Do nothing if there is only one or no elements.
+// Do nothing if there is only one or no elements.
 void	sa(t_stack *a)
 {
 	t_node	*temp1;

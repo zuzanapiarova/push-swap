@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/30 15:06:36 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/01 18:01:20 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@ void	fill_a(t_stack *a, char *val)
 	a->size += 1;
 }
 
-/*  fills a stack from string input
-a. if (j > (int)ft_strlen(str)) --> if j
- is already after string we can quit because then we would go out of scope */
-
+// fills a stack from string input
+// a. if (j > (int)ft_strlen(str)) --> if j
+// is already after string we can quit because then we would go out of scope
 void	fill_a_from_str(t_stack *a, char *str)
 {
 	int		j;

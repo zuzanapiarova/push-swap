@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/10/01 14:56:16 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/01 18:00:51 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,13 @@ void	init_stacks(t_stack *a, t_stack *b);
 void	algorithm(t_stack *a, t_stack *b);
 void	fill_b(t_stack *a, t_stack *b);
 void	back_to_a(t_stack *a, t_stack *b);
-void set_insides(t_operation *c_o, t_operation *c_o_copy, t_stack *a);
+void	set_insides(t_operation *op, t_operation *cop, t_stack *a);
+
+// algorithm utils
+int	calculate_rr(t_operation *op);
+int	calculate_rrr(t_operation *op);
+void	perform_operation(t_stack *a, t_stack *b);
+t_operation	*set_op(int ra, int rb, int rra, int rrb);
 
 // functions
 void	sa(t_stack *a);
@@ -84,15 +90,19 @@ void	index_stack(t_stack *s);
 void	ft_stackclear(t_stack *s);
 void	print_stack(t_stack *s);
 
-// utils
+// stack utils
 void	check_duplicates(int value, t_stack *s);
 bool	is_sorted(t_stack *a);
 void	find_values(t_stack *s);
-void	sort_three(t_stack *a);
+
+// algorithm utils I
 void	do_r_or_rr(t_node *n, t_stack *s);
 int		calculate_rr(t_operation *op);
 int		calculate_rrr(t_operation *op);
+
+// algorithm utils II
 t_node	*find_predecessor(t_node *n, t_stack *s);
 t_node	*find_successor(t_node *n, t_stack *s);
+void	sort_three(t_stack *a);
 
 #endif
