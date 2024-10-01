@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/09/30 23:44:23 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/01 14:56:16 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,9 @@ typedef struct s_stack
 }				t_stack;
 
 // MAIN
-void	init_stacks(t_stack *a, t_stack *b);
 void	fill_a(t_stack *a, char *val);
 void	fill_a_from_str(t_stack *a, char *str);
-// and main
+void	init_stacks(t_stack *a, t_stack *b);
 
 // algorithm
 void	algorithm(t_stack *a, t_stack *b);
@@ -90,9 +89,9 @@ void	check_duplicates(int value, t_stack *s);
 bool	is_sorted(t_stack *a);
 void	find_values(t_stack *s);
 void	sort_three(t_stack *a);
-void do_r_or_rr(t_node *n, t_stack *s);
-int calculate_rr(t_operation *op);
-int calculate_rrr(t_operation *op);
+void	do_r_or_rr(t_node *n, t_stack *s);
+int		calculate_rr(t_operation *op);
+int		calculate_rrr(t_operation *op);
 t_node	*find_predecessor(t_node *n, t_stack *s);
 t_node	*find_successor(t_node *n, t_stack *s);
 
