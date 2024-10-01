@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algorithm_utils.c                                  :+:      :+:    :+:   */
+/*   algorithm_utils_i.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:23:52 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/10/01 19:42:52 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:20:16 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,9 @@ int	calculate_rrr(t_operation *op)
 	return (op->rra + op->rrb + op->rrr);
 }
 
-// after we set the cheapest operation for number from stack a, we perform all its actions
-void	perform_operation(t_stack *a, t_stack *b)
-{
-	while (a->cheapest_o->ra-- > 0)
-		ra(a);
-	while (a->cheapest_o->rb-- > 0)
-		rb(b);
-	while (a->cheapest_o->rr-- > 0)
-		rr(a, b);
-	while (a->cheapest_o->rra-- > 0)
-		rra(a);
-	while (a->cheapest_o->rrb-- > 0)
-		rrb(b);
-	while (a->cheapest_o->rrr-- > 0)
-		rrr(a, b);
-}
-
-// set values of the operation struct passed as first parameter, values for operations ra, rb, rra, rrb are in parameters
-// sets rr and rrr to 0, so it must be changed afterwards if needed and added to operation count
+// set values of the operation passed as first parameter
+// values for ra, rb, rr in parameters
+// returns number of operations
 int	set_rr(t_operation *op, int ra, int rb, int rr)
 {
 	op->ra = ra;
@@ -95,6 +79,9 @@ int	set_rr(t_operation *op, int ra, int rb, int rr)
 	return (op->ra + op->rb + op->rr);
 }
 
+// set values of the operation passed as first parameter
+// values for rra, rrb, rrr in parameters
+// returns number of operations
 int	set_rrr(t_operation *op, int rra, int rrb, int rrr)
 {
 	op->rra = rra;
@@ -103,15 +90,20 @@ int	set_rrr(t_operation *op, int rra, int rrb, int rrr)
 	return (op->rra + op->rrb + op->rrr);
 }
 
-// set values of the operation struct passed as first parameter, values for operations ra, rb, rra, rrb are in parameters
-// sets rr and rrr to 0, so it must be changed afterwards if needed and added to operation count
-int	set_operation(t_operation *op, int ra, int rb, int rra, int rrb)
+// performs that operation to get given element to top which is cheaper
+void	do_r_or_rr(t_node *n, t_stack *s)
 {
-	op->ra = ra;
-	op->rb = rb;
-	op->rra = rra;
-	op->rrb = rrb;
-	op->rr = 0;
-	op->rrr = 0;
-	return (op->ra + op->rb + op->rra + op->rrb);
+	int	operation;
+
+	if (n->i <= s->size / 2)
+		operation = 1;
+	else
+		operation = 2;
+	while (s->first != n)
+	{
+		if (operation == 1)
+			ra(s);
+		else
+			rra(s);
+	}
 }

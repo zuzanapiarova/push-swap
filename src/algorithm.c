@@ -6,7 +6,7 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:50:53 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/01 20:05:18 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:30:13 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	find_cheapest_operation(t_stack *a, t_stack *b)
 {
-	t_operation	*c_o;
-	t_operation	*c_o_copy;
+	t_operation	*co;
+	t_operation	*cop;
 	t_node		*temp;
 	t_node		*friend;
 
-	c_o = malloc(sizeof(t_operation));
-	c_o_copy = malloc(sizeof(t_operation));
-	if (!c_o || !c_o_copy)
+	co = malloc(sizeof(t_operation));
+	cop = malloc(sizeof(t_operation));
+	if (!co || !cop)
 		return ;
 	temp = a->head;
 	while (temp)
@@ -30,42 +30,51 @@ void	find_cheapest_operation(t_stack *a, t_stack *b)
 			friend = b->max;
 		else
 			friend = find_predecessor(temp, b);
-		set_rr(c_o, temp->i, friend->i, 0);
-		set_rrr(c_o, (a->size - temp->i), (b->size - friend->i), 0);
-		set_rr(c_o_copy, c_o->ra, c_o->rb, 0);
-		set_rrr(c_o_copy, c_o->rra, c_o->rrb, 0);
-		set_insides(c_o, c_o_copy, a);
+		set_rr(co, temp->i, friend->i, 0);
+		set_rrr(co, (a->size - temp->i), (b->size - friend->i), 0);
+		set_rr(cop, co->ra, co->rb, 0);
+		set_rrr(cop, co->rra, co->rrb, 0);
+		set_insides(co, cop, a);
 		temp = temp->next;
 	}
-	free(c_o);
-	free(c_o_copy);
+	free(co);
+	free(cop);
 }
 
-// compares all 7 options the operations can take and selects and sets the cheapest one
+// compares all operation combinations and selects and sets cheapest one
 // first checks for best case scenario if ra and rb are on top thus equal to 0
-// then compare if opposite operations ra+rrb or rb+rra do not take less operations than combination ra+rb+rr
+// then compare if opposite operations ra+rrb/rb+rra dont take less operations
 // then checks if combination ra+rb+rr are new cheapest
 // then checks if combinations rra+rrb+rrr are the new cheapest
-void set_insides(t_operation *c_o, t_operation *c_o_copy, t_stack *a)
+void	set_insides(t_operation *co, t_operation *cop, t_stack *a)
 {
-	if (c_o->ra == 0 && c_o->rb == 0)
+	if (co->ra == 0 && co->rb == 0)
 	{
-		a->cheapest_o->count = set_rr(a->cheapest_o, 0, 0, 0) + set_rrr(a->cheapest_o, 0, 0, 0);
+		a->ch->count = set_rr(a->ch, 0, 0, 0) + set_rrr(a->ch, 0, 0, 0);
 		return ;
 	}
-	c_o->rrcount = calculate_rr(c_o);
-	c_o->rrrcount = calculate_rrr(c_o);
-	if (((c_o_copy->ra + c_o_copy->rrb) < c_o->rrcount) && ((c_o_copy->ra + c_o_copy->rrb) < c_o->rrrcount) && ((c_o_copy->ra + c_o_copy->rrb) < a->cheapest_o->count))
-		a->cheapest_o->count = set_rr(a->cheapest_o, c_o_copy->ra, 0, 0) + set_rrr(a->cheapest_o, 0, c_o_copy->rrb, 0);
-	else if (((c_o_copy->rb + c_o_copy->rra) < c_o->rrcount) && ((c_o_copy->rb + c_o_copy->rra) < c_o->rrrcount) && ((c_o_copy->rb + c_o_copy->rra) < a->cheapest_o->count))
-		a->cheapest_o->count = set_rr(a->cheapest_o, 0, c_o_copy->rb, 0) + set_rrr(a->cheapest_o, c_o_copy->rra, 0, 0);
-	else if (c_o->rrcount < c_o->rrrcount && c_o->rrcount < a->cheapest_o->count)
-		a->cheapest_o->count = set_rr(a->cheapest_o, c_o->ra, c_o->rb, c_o->rr) + set_rrr(a->cheapest_o, 0, 0, 0);
-	else if (c_o->rrrcount < c_o->rrcount && c_o->rrrcount < a->cheapest_o->count)
-		a->cheapest_o->count = set_rr(a->cheapest_o, 0, 0, 0) + set_rrr(a->cheapest_o, c_o->rra, c_o->rrb, c_o->rrr);
+	co->rrcount = calculate_rr(co);
+	co->rrrcount = calculate_rrr(co);
+	if (((cop->ra + cop->rrb) < co->rrcount)
+		&& ((cop->ra + cop->rrb) < co->rrrcount)
+		&& ((cop->ra + cop->rrb) < a->ch->count))
+		a->ch->count = set_rr(a->ch, cop->ra, 0, 0)
+			+ set_rrr(a->ch, 0, cop->rrb, 0);
+	else if (((cop->rb + cop->rra) < co->rrcount)
+		&& ((cop->rb + cop->rra) < co->rrrcount)
+		&& ((cop->rb + cop->rra) < a->ch->count))
+		a->ch->count = set_rr(a->ch, 0, cop->rb, 0)
+			+ set_rrr(a->ch, cop->rra, 0, 0);
+	else if (co->rrcount < co->rrrcount && co->rrcount < a->ch->count)
+		a->ch->count = set_rr(a->ch, co->ra, co->rb, co->rr)
+			+ set_rrr(a->ch, 0, 0, 0);
+	else if (co->rrrcount < co->rrcount && co->rrrcount < a->ch->count)
+		a->ch->count = set_rr(a->ch, 0, 0, 0)
+			+ set_rrr(a->ch, co->rra, co->rrb, co->rrr);
 }
 
-// B is filled in descending order, always the cheapest element is taken to top and pushed to b
+// B is filled descending, always finding cheapest element in each iteration
+// cheapest element is always taken to top and pushed to b
 // if added element is new min/max, we put it above the biggest number in b
 // for other elements, we add it above its predecessor - closest smaller element
 void	fill_b(t_stack *a, t_stack *b)
@@ -74,11 +83,11 @@ void	fill_b(t_stack *a, t_stack *b)
 	pb(a, b);
 	while (a->size > 3)
 	{
-		a->cheapest_o = malloc(sizeof(t_operation));
-		a->cheapest_o->count = 500;
+		a->ch = malloc(sizeof(t_operation));
+		a->ch->count = 500;
 		find_cheapest_operation(a, b);
 		perform_operation(a, b);
-		free(a->cheapest_o);
+		free(a->ch);
 		pb(a, b);
 	}
 }
@@ -86,9 +95,9 @@ void	fill_b(t_stack *a, t_stack *b)
 // when this function starts, a has 3 already sorted elements
 // b has multiple sorted descending blocks, that may not be in order
 // a. if (a->min->i - a->first->i < (a->size) / 2)
-// find if first is not min or last is not max we have to traverse stack once more until it is
+// if first is not min or last is not max we have to rotate stack until it is
 // if distance a->first and a->min is smaller than half of a size ra, else rra
-void	back_to_a(t_stack * a, t_stack *b)
+void	back_to_a(t_stack *a, t_stack *b)
 {
 	t_node	*successor;
 
@@ -110,6 +119,7 @@ void	back_to_a(t_stack * a, t_stack *b)
 			rra(a);
 	}
 }
+
 // performs actions based on how many elements it should sort
 void	algorithm(t_stack *a, t_stack *b)
 {

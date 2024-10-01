@@ -6,7 +6,7 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 18:52:29 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/23 20:56:02 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:22:25 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,6 @@ void	index_stack(t_stack *s)
 		temp = temp->next;
 		index++;
 	}
-}
-// REMOVE/COMMENT OUT WHEN EVALUATING
-void	print_stack(t_stack *s)
-{
-	t_node	*current;
-
-	current = s->head;
-	if (current)
-		printf("Stack %s, size: %d(first: %d, last: %d, min: %d, max:%d)\n",
-			s->name, s->size, s->first->value, s->last->value, s->min->value,
-			s->max->value);
-	while (current)
-	{
-		ft_putnbr_fd(current->value, 1);
-		ft_putstr_fd("(", 1);
-		ft_putnbr_fd(current->i, 1);
-		ft_putstr_fd(")", 1);
-		ft_putstr_fd(" ", 1);
-		current = current->next;
-	}
-	ft_putchar_fd('\n', 1);
 }
 
 void	ft_stackclear(t_stack *s)
