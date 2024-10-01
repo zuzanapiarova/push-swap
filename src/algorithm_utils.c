@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algorithm_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:23:52 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/10/01 15:25:05 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/01 19:42:52 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,24 @@ void	perform_operation(t_stack *a, t_stack *b)
 		rrb(b);
 	while (a->cheapest_o->rrr-- > 0)
 		rrr(a, b);
+}
+
+// set values of the operation struct passed as first parameter, values for operations ra, rb, rra, rrb are in parameters
+// sets rr and rrr to 0, so it must be changed afterwards if needed and added to operation count
+int	set_rr(t_operation *op, int ra, int rb, int rr)
+{
+	op->ra = ra;
+	op->rb = rb;
+	op->rr = rr;
+	return (op->ra + op->rb + op->rr);
+}
+
+int	set_rrr(t_operation *op, int rra, int rrb, int rrr)
+{
+	op->rra = rra;
+	op->rrb = rrb;
+	op->rrr = rrr;
+	return (op->rra + op->rrb + op->rrr);
 }
 
 // set values of the operation struct passed as first parameter, values for operations ra, rb, rra, rrb are in parameters

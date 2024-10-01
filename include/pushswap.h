@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/10/01 14:56:16 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/01 19:44:02 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,9 @@ int		calculate_rr(t_operation *op);
 int		calculate_rrr(t_operation *op);
 t_node	*find_predecessor(t_node *n, t_stack *s);
 t_node	*find_successor(t_node *n, t_stack *s);
+int	set_rr(t_operation *op, int ra, int rb, int rr);
+int	set_rrr(t_operation *op, int rra, int rrb, int rrr);
+int	set_operation(t_operation *op, int ra, int rb, int rra, int rrb);
+void	perform_operation(t_stack *a, t_stack *b);
 
 #endif
