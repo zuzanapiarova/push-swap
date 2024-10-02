@@ -6,7 +6,7 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/10/01 20:31:11 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/02 17:35:30 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_stack
 }				t_stack;
 
 // MAIN
-void	fill_a(t_stack *a, char *val);
+void	fill_a(t_stack *a, char *str);
 void	fill_a_from_str(t_stack *a, char *str);
 void	init_stacks(t_stack *a, t_stack *b);
 

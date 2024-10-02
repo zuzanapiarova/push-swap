@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/30 15:06:36 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/02 20:32:05 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@
 // but we shouldnt do it if it is normal value 0
 // b. (int)ft_strlen(val))
 // --> we do this because we want to check if input value is a valid number
-void	fill_a(t_stack *a, char *val)
+/* void	fill_a(t_stack *a, char *str)
 {
 	int	value;
 	int	i;
 
 	i = 0;
-	while (i < (int)ft_strlen(val))
+	while (i < (int)ft_strlen(str))
 	{
-		if (!ft_isdigit(val[i]) && val[i] != '+' && val[i] != '-')
+		if (!ft_isdigit(str[i]) && str[i] != '+' && str[i] != '-')
 		{
 			ft_putstr_fd("Error.\n", 2);
 			ft_stackclear(a);
@@ -34,9 +34,54 @@ void	fill_a(t_stack *a, char *val)
 		}
 		i++;
 	}
-	value = ft_atoi(val);
-	if (value == 0 && ft_strncmp(val, "0", 1) && ft_strncmp(val, "+0", 2)
-		&& ft_strncmp(val, "-0", 2))
+	value = ft_atoi(str);
+	if (value == 0 && ft_strncmp(str, "0", 1) && ft_strncmp(str, "+0", 2)
+		&& ft_strncmp(str, "-0", 2))
+	{
+		ft_putstr_fd("Error.\n", 2);
+		ft_stackclear(a);
+		exit(EXIT_SUCCESS);
+	}
+	check_duplicates(value, a);
+	ft_stackadd_back(a, ft_stacknew(value));
+	a->size += 1;
+} */
+
+void	fill_a(t_stack *a, char *str)
+{
+	int		value;
+	char	*temp;
+
+	if (!str) // Check if the string pointer is NULL
+	{
+		ft_putstr_fd("Error.\n", 2);
+		ft_stackclear(a);
+		exit(EXIT_SUCCESS);
+	}
+	value = 1;
+	if (ft_strlen(str) == 0) //1. if string is empty just ignore it
+		return ;
+	if (*str == '+' || *str == '-') //2. we accept only numbers with one sign, else it is wrong, so we remember the sign and move past it
+	{
+		if (*str == '-')
+			value *= -1;
+		str++;
+	}
+	temp = str;
+	while (*temp && (*temp >= '0' && *temp <= '9')) // 3. while string contains digits move through it, if does not end in NULL means we encountered other character so we error and exit
+		temp++;
+	if (*temp != '\0')
+	{
+		ft_putstr_fd("Errorrr.\n", 2);
+		ft_stackclear(a);
+		exit(EXIT_SUCCESS);
+	}
+	// TODO: handle string bigger than int
+	// TODO: add checks if atoi is 0 and number is not 0
+	value = value * ft_atoi(str);
+	printf("%d\n", value);
+	if (value == 0 && ft_strncmp(str, "0", 1) && ft_strncmp(str, "+0", 2)
+		&& ft_strncmp(str, "-0", 2))
 	{
 		ft_putstr_fd("Error.\n", 2);
 		ft_stackclear(a);
@@ -50,12 +95,11 @@ void	fill_a(t_stack *a, char *val)
 /*  fills a stack from string input
 a. if (j > (int)ft_strlen(str)) --> if j
  is already after string we can quit because then we would go out of scope */
-
 void	fill_a_from_str(t_stack *a, char *str)
 {
 	int		j;
-	char	*temp;
 	int		len;
+	char	*temp;
 
 	j = 0;
 	while (str[j])
@@ -102,10 +146,7 @@ int	main(int argc, char *argv[])
 	i = 0;
 	init_stacks(&a, &b);
 	if (argc <= 1 || (argc == 2 && ft_strlen(argv[1]) == 0))
-	{
-		ft_putstr_fd("Error.\n", 2);
 		exit(EXIT_SUCCESS);
-	}
 	else if (argc == 2)
 		fill_a_from_str(&a, argv[1]);
 	else
@@ -122,4 +163,6 @@ int	main(int argc, char *argv[])
 }
 
 // TODO: max int value
-// saving to stack from str sometimes not work properly
+// saving to stack from str  not work properly
+// handle passing in one or more spaces
+// handle first argument not being sorted properly

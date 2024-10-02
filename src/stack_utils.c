@@ -6,7 +6,7 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:26 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/01 20:22:30 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/02 18:54:04 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	check_duplicates(int value, t_stack *s)
 	{
 		if (current->value == value)
 		{
-			ft_putstr_fd("Duplicates\n", 2);
+			ft_putstr_fd("Error.\n", 2);
 			ft_stackclear(s);
 			exit(EXIT_SUCCESS);
 		}

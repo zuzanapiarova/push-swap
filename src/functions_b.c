@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_b.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:43:45 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/20 16:08:50 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/02 17:16:27 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	sb(t_stack *b)
 void	pb(t_stack *a, t_stack *b)
 {
 	t_node	*temp;
-	t_node	*current;
 
 	ft_putstr_fd("pb\n", 1);
 	if (a->head)
@@ -51,26 +50,12 @@ void	pb(t_stack *a, t_stack *b)
 		b->head = temp;
 		b->size += 1;
 		a->size -= 1;
-		b->first = b->head;
 		a->first = a->head;
-		b->max = b->head;
-		b->min = b->head;
-		current = b->head;
-		while (current != NULL)
-		{
-			if (current->value > b->max->value)
-				b->max = current;
-			if (current->value < b->min->value)
-				b->min = current;
-			current = current->next;
-		}
 		if (a->head == NULL)
 			a->last = NULL;
-		if (b->head->next == NULL)
-			b->last = b->head;
+		find_values(b);
 	}
 	index_stack(a);
-	index_stack(b);
 }
 
 // rb (rotate b): Shift up all elements of stack b by 1.

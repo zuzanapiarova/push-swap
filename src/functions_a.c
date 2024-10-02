@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_a.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:03:25 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/09/20 16:08:40 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/02 17:14:32 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	sa(t_stack *a)
 void	pa(t_stack *a, t_stack *b)
 {
 	t_node	*temp;
-	t_node	*current;
 
 	ft_putstr_fd("pa\n", 1);
 	if (b->head)
@@ -51,25 +50,11 @@ void	pa(t_stack *a, t_stack *b)
 		a->head = temp;
 		a->size += 1;
 		b->size -= 1;
-		a->first = a->head;
 		b->first = b->head;
-		a->max = a->head;
-		a->min = a->head;
-		current = a->head;
-		while (current != NULL)
-		{
-			if (current->value > a->max->value)
-				a->max = current;
-			if (current->value < a->min->value)
-				a->min = current;
-			current = current->next;
-		}
 		if (b->head == NULL)
 			b->last = NULL;
-		if (a->head->next == NULL)
-			a->last = a->head;
+		find_values(a);
 	}
-	index_stack(a);
 	index_stack(b);
 }
 
