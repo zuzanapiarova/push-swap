@@ -6,7 +6,7 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:50:53 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/01 20:30:13 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/03 19:53:58 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ void	back_to_a(t_stack *a, t_stack *b)
 		successor = find_successor(b->head, a);
 		if (successor && a->head->value != b->head->value + 1)
 			do_r_or_rr(successor, a);
+		if (!successor && a->min != a->first)
+			do_r_or_rr(a->min, a);
 		pa(a, b);
 	}
 	if (a->min->i - a->first->i <= (a->size) / 2)

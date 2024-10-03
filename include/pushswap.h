@@ -6,7 +6,7 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/10/03 18:08:30 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:54:24 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,19 @@ void	rra(t_stack *a);
 void	rrb(t_stack *b);
 void	rrr(t_stack *a, t_stack *b);
 
-// upgraded libft functions
+// utils
+int		is_bigger_than_int(const char *num_str, int value);
+int		is_only_spaces(char *str);
+void	free_array(char **arr);
+
+// stack utils i
 t_node	*ft_stacknew(int value);
 void	ft_stackadd_back(t_stack *stack, t_node *new_node);
 t_node	*ft_stacklast(t_stack *s);
 void	ft_stackclear(t_stack *s);
 int		is_bigger_than_int(const char *num_str, int value);
 
-// stack utils
+// stack utils ii
 int		has_duplicates(int value, t_stack *s);
 bool	is_sorted(t_stack *a);
 void	find_values(t_stack *s);

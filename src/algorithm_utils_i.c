@@ -6,7 +6,7 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:23:52 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/10/01 20:20:16 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/03 20:06:24 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,15 @@ int	set_rrr(t_operation *op, int rra, int rrb, int rrr)
 	return (op->rra + op->rrb + op->rrr);
 }
 
-// performs that operation to get given element to top which is cheaper
+// select cheapest element to get to top by ra/rra and performs that operation
 void	do_r_or_rr(t_node *n, t_stack *s)
 {
 	int	operation;
 
+	if (!s || !s->first || !n)
+		return ;
+	if (n->i < 0 || n->i >= s->size)
+		return ;
 	if (n->i <= s->size / 2)
 		operation = 1;
 	else
