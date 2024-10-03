@@ -6,11 +6,21 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 18:20:21 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/03 18:57:27 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/03 20:20:35 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
+
+int	get_sign(char *str)
+{
+	int	value;
+
+	value = 1;
+	if (*str == '-')
+		value *= -1;
+	return (value);
+}
 
 void	free_array(char **arr)
 {

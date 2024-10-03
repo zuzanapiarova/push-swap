@@ -6,7 +6,7 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/10/03 18:54:24 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/03 20:20:46 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	rrr(t_stack *a, t_stack *b);
 int		is_bigger_than_int(const char *num_str, int value);
 int		is_only_spaces(char *str);
 void	free_array(char **arr);
+int		get_sign(char *str);
 
 // stack utils i
 t_node	*ft_stacknew(int value);

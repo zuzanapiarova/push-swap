@@ -6,15 +6,17 @@
 /*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/03 20:05:29 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/03 20:41:02 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-// show Error. and end program, free memory
-void	put_error(t_stack *a)
+// show error, free memory, end program
+void	put_error(t_stack *a, char **arr)
 {
+	if (arr != NULL)
+		free_array(arr);
 	ft_putstr_fd("Error.\n", 2);
 	ft_stackclear(a);
 	exit(EXIT_SUCCESS);
@@ -22,7 +24,8 @@ void	put_error(t_stack *a)
 
 // fills stack a from string input
 // if string is empty don't process it and go to next one
-// check for sign - we accept only numbers with one sign
+// checks for sign - we accept only numbers with one sign
+// checks if we string consists of digits only
 // checks for 0, +0 and -0 are there because atoi returns 0 in some cases
 // so we shouldn't s it if it is not normal value 0
 // should free variable is set to 1 if yes and 0 if no
@@ -32,29 +35,25 @@ void	fill_a(t_stack *a, char *str)
 	char	*temp;
 
 	if (!str)
-		put_error(a);
-	value = 1;
+		put_error(a, NULL);
 	if (ft_strlen(str) == 0)
 		return ;
+	value = get_sign(str);
 	if (*str == '+' || *str == '-')
-	{
-		if (*str == '-')
-			value *= -1;
 		str++;
-	}
 	temp = str;
 	while (*temp && (*temp >= '0' && *temp <= '9'))
 		temp++;
 	if (*temp != '\0')
-		put_error(a);
+		put_error(a, NULL);
 	if (is_bigger_than_int(str, value))
-		put_error(a);
+		put_error(a, NULL);
 	value = value * ft_atoi(str);
 	if (value == 0 && ft_strncmp(str, "0", 1) && ft_strncmp(str, "+0", 2)
 		&& ft_strncmp(str, "-0", 2))
-		put_error(a);
+		put_error(a, NULL);
 	if (has_duplicates(value, a))
-		put_error(a);
+		put_error(a, NULL);
 	ft_stackadd_back(a, ft_stacknew(value));
 	a->size += 1;
 }
@@ -65,44 +64,25 @@ void	fill_a_free(t_stack *a, char *str, char **arr)
 	char	*temp;
 
 	if (!str)
-	{
-		free_array(arr);
-		put_error(a);
-	}
-	value = 1;
+		put_error(a, arr);
 	if (ft_strlen(str) == 0)
 		return ;
+	value = get_sign(str);
 	if (*str == '+' || *str == '-')
-	{
-		if (*str == '-')
-			value *= -1;
 		str++;
-	}
 	temp = str;
 	while (*temp && (*temp >= '0' && *temp <= '9'))
 		temp++;
 	if (*temp != '\0')
-	{
-		free_array(arr);
-		put_error(a);
-	}
+		put_error(a, arr);
 	if (is_bigger_than_int(str, value))
-	{
-		free_array(arr);
-		put_error(a);
-	}
+		put_error(a, arr);
 	value = value * ft_atoi(str);
 	if (value == 0 && ft_strncmp(str, "0", 1) && ft_strncmp(str, "+0", 2)
 		&& ft_strncmp(str, "-0", 2))
-	{
-		free_array(arr);
-		put_error(a);
-	}
+		put_error(a, arr);
 	if (has_duplicates(value, a))
-	{
-		free_array(arr);
-		put_error(a);
-	}
+		put_error(a, arr);
 	ft_stackadd_back(a, ft_stacknew(value));
 	a->size += 1;
 }
@@ -120,7 +100,7 @@ void	fill_a_from_str(t_stack *a, char *str)
 	if (!arr)
 	{
 		free_array(arr);
-		put_error(a);
+		put_error(a, NULL);
 	}
 	i = 0;
 	while (arr[i] != NULL)
@@ -129,7 +109,7 @@ void	fill_a_from_str(t_stack *a, char *str)
 		if (!temp)
 		{
 			free_array(arr);
-			put_error(a);
+			put_error(a, NULL);
 		}
 		fill_a_free(a, temp, arr);
 		i++;
@@ -160,6 +140,7 @@ int	main(int argc, char *argv[])
 	}
 	find_values(&a);
 	algorithm(&a, &b);
+	print_stack(&a);
 	ft_stackclear(&a);
 	ft_stackclear(&b);
 	return (0);
