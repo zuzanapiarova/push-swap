@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/03 08:01:48 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/03 08:16:18 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	fill_a_from_str(t_stack *a, char *str)
 		exit(EXIT_SUCCESS);
 	}
 	i = 0;
-	while (arr[i])
+	while (arr[i] != NULL)
 	{
 		if (!arr[i])
 		{
@@ -124,9 +124,10 @@ void	fill_a_from_str(t_stack *a, char *str)
 			exit(EXIT_SUCCESS);
 		}
 		fill_a(a, arr[i]);
-
+		//printf("%s\n", arr[i]);
+		i++;
 	}
-	free(arr);
+	//free(arr);
 	// int		j;
 	// int		len;
 	// char	*temp;
