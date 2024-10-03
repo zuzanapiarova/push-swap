@@ -3,50 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/02 20:32:05 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/03 08:01:48 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
+int is_bigger_than_int(const char *num_str, int value) {
+	if (!ft_strncmp(num_str, "2147483648", 10) && value == -1)
+		return 0;
+    while (*num_str == '0') {
+        num_str++;
+    }
+    // Define the string representation of INT_MAX for manual comparison
+    const char *int_max_str = "2147483647";  // INT_MAX for 32-bit systems
+
+    // Get the length of the input string
+    int len = ft_strlen(num_str);
+    int int_max_len = ft_strlen(int_max_str);
+
+    // Compare lengths first
+    if (len > int_max_len) {
+        return 1;  // num_str is longer, so it's definitely bigger than INT_MAX
+    } else if (len < int_max_len) {
+        return 0;  // num_str is shorter, so it's definitely smaller than INT_MAX
+    }
+
+    // If lengths are equal, compare each digit manually
+    for (int i = 0; i < len; i++) {
+        if (num_str[i] > int_max_str[i]) {
+            return 1;  // num_str has a greater digit at position i
+        } else if (num_str[i] < int_max_str[i]) {
+            return 0;  // num_str has a smaller digit at position i
+        }
+    }
+
+    // If all digits are equal, the number is equal to INT_MAX
+    return 0;
+}
+
 // fills stack a from numbers received in program arguments
-// a. if (value == 0 && ft_strncmp(val, "0", ft_strlen(val)) != 0) :
-// --> this means atoi could not convert the number thus returns 0
-// but we shouldnt do it if it is normal value 0
-// b. (int)ft_strlen(val))
-// --> we do this because we want to check if input value is a valid number
-/* void	fill_a(t_stack *a, char *str)
-{
-	int	value;
-	int	i;
-
-	i = 0;
-	while (i < (int)ft_strlen(str))
-	{
-		if (!ft_isdigit(str[i]) && str[i] != '+' && str[i] != '-')
-		{
-			ft_putstr_fd("Error.\n", 2);
-			ft_stackclear(a);
-			exit(EXIT_SUCCESS);
-		}
-		i++;
-	}
-	value = ft_atoi(str);
-	if (value == 0 && ft_strncmp(str, "0", 1) && ft_strncmp(str, "+0", 2)
-		&& ft_strncmp(str, "-0", 2))
-	{
-		ft_putstr_fd("Error.\n", 2);
-		ft_stackclear(a);
-		exit(EXIT_SUCCESS);
-	}
-	check_duplicates(value, a);
-	ft_stackadd_back(a, ft_stacknew(value));
-	a->size += 1;
-} */
-
+// checks for 0, +0 and -0 are there because atoi returns 0 in some cases
+// so we shouldn't s it if it is not normal value 0
 void	fill_a(t_stack *a, char *str)
 {
 	int		value;
@@ -72,14 +73,19 @@ void	fill_a(t_stack *a, char *str)
 		temp++;
 	if (*temp != '\0')
 	{
-		ft_putstr_fd("Errorrr.\n", 2);
+		ft_putstr_fd("Error.\n", 2);
 		ft_stackclear(a);
 		exit(EXIT_SUCCESS);
 	}
 	// TODO: handle string bigger than int
+	if (is_bigger_than_int(str, value))
+	{
+		ft_putstr_fd("Error.\n", 2);
+		ft_stackclear(a);
+		exit(EXIT_SUCCESS);
+	}
 	// TODO: add checks if atoi is 0 and number is not 0
 	value = value * ft_atoi(str);
-	printf("%d\n", value);
 	if (value == 0 && ft_strncmp(str, "0", 1) && ft_strncmp(str, "+0", 2)
 		&& ft_strncmp(str, "-0", 2))
 	{
@@ -97,34 +103,58 @@ a. if (j > (int)ft_strlen(str)) --> if j
  is already after string we can quit because then we would go out of scope */
 void	fill_a_from_str(t_stack *a, char *str)
 {
-	int		j;
-	int		len;
-	char	*temp;
+	char **arr;
+	int i;
 
-	j = 0;
-	while (str[j])
+	arr = ft_split(str, ' ');
+	if (!arr)
 	{
-		if (j > (int)ft_strlen(str))
-			break ;
-		len = 0;
-		if (str[j] == 32)
-			j++;
-		while (ft_isdigit(str[j]) || str[j] == '-' || str[j] == '+')
-		{
-			len++;
-			j++;
-		}
-		if (j == 0)
+		ft_putstr_fd("Error.\n", 2);
+		ft_stackclear(a);
+		exit(EXIT_SUCCESS);
+	}
+	i = 0;
+	while (arr[i])
+	{
+		if (!arr[i])
 		{
 			ft_putstr_fd("Error.\n", 2);
+			free(arr);
 			ft_stackclear(a);
 			exit(EXIT_SUCCESS);
 		}
-		temp = ft_substr(str, j - len, len);
-		fill_a(a, temp);
-		free(temp);
-		j++;
+		fill_a(a, arr[i]);
+
 	}
+	free(arr);
+	// int		j;
+	// int		len;
+	// char	*temp;
+
+	// j = 0;
+	// while (str[j])
+	// {
+	// 	if (j > (int)ft_strlen(str))
+	// 		break ;
+	// 	len = 0;
+	// 	if (str[j] == 32)
+	// 		j++;
+	// 	while (ft_isdigit(str[j]) || str[j] == '-' || str[j] == '+')
+	// 	{
+	// 		len++;
+	// 		j++;
+	// 	}
+	// 	if (j == 0)
+	// 	{
+	// 		ft_putstr_fd("Error.\n", 2);
+	// 		ft_stackclear(a);
+	// 		exit(EXIT_SUCCESS);
+	// 	}
+	// 	temp = ft_substr(str, j - len, len);
+	// 	fill_a(a, temp);
+	// 	free(temp);
+	// 	j++;
+	// }
 }
 
 void	init_stacks(t_stack *a, t_stack *b)
@@ -164,5 +194,5 @@ int	main(int argc, char *argv[])
 
 // TODO: max int value
 // saving to stack from str  not work properly
-// handle passing in one or more spaces
-// handle first argument not being sorted properly
+// handle passing in one or more spaces in str
+// handle min int must allow -2147483648

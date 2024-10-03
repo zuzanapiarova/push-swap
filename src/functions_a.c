@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_a.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:03:25 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/02 17:14:32 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/02 22:05:27 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
