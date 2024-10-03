@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/10/02 17:35:30 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:43:00 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_stack
 }				t_stack;
 
 // MAIN
-void	fill_a(t_stack *a, char *str);
+void	fill_a(t_stack *a, char *str, int should_free);
 void	fill_a_from_str(t_stack *a, char *str);
 void	init_stacks(t_stack *a, t_stack *b);
 
@@ -81,14 +81,15 @@ void	rrr(t_stack *a, t_stack *b);
 t_node	*ft_stacknew(int value);
 void	ft_stackadd_back(t_stack *stack, t_node *new_node);
 t_node	*ft_stacklast(t_stack *s);
-void	index_stack(t_stack *s);
 void	ft_stackclear(t_stack *s);
+int		is_bigger_than_int(const char *num_str, int value);
 
 // stack utils
 void	check_duplicates(int value, t_stack *s);
 bool	is_sorted(t_stack *a);
 void	find_values(t_stack *s);
 void	print_stack(t_stack *s);
+void	index_stack(t_stack *s);
 
 // algorithm utils i
 int		calculate_rr(t_operation *op);

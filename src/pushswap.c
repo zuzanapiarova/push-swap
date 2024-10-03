@@ -6,92 +6,80 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/03 08:16:18 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/03 15:44:45 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-int is_bigger_than_int(const char *num_str, int value) {
-	if (!ft_strncmp(num_str, "2147483648", 10) && value == -1)
-		return 0;
-    while (*num_str == '0') {
-        num_str++;
-    }
-    // Define the string representation of INT_MAX for manual comparison
-    const char *int_max_str = "2147483647";  // INT_MAX for 32-bit systems
+// throw error and end program, free memory
+void	put_error(t_stack *a)
+{
+	ft_putstr_fd("Error.\n", 2);
+	ft_stackclear(a);
+	exit(EXIT_SUCCESS);
 
-    // Get the length of the input string
-    int len = ft_strlen(num_str);
-    int int_max_len = ft_strlen(int_max_str);
-
-    // Compare lengths first
-    if (len > int_max_len) {
-        return 1;  // num_str is longer, so it's definitely bigger than INT_MAX
-    } else if (len < int_max_len) {
-        return 0;  // num_str is shorter, so it's definitely smaller than INT_MAX
-    }
-
-    // If lengths are equal, compare each digit manually
-    for (int i = 0; i < len; i++) {
-        if (num_str[i] > int_max_str[i]) {
-            return 1;  // num_str has a greater digit at position i
-        } else if (num_str[i] < int_max_str[i]) {
-            return 0;  // num_str has a smaller digit at position i
-        }
-    }
-
-    // If all digits are equal, the number is equal to INT_MAX
-    return 0;
 }
 
-// fills stack a from numbers received in program arguments
+// fills stack a from string input in parameter which is input from program arguments
+// if string is empty don't process it and go to next one
+// check for sign - we accept only numbers with one sign
 // checks for 0, +0 and -0 are there because atoi returns 0 in some cases
 // so we shouldn't s it if it is not normal value 0
-void	fill_a(t_stack *a, char *str)
+// should free variable is set to 1 if yes and 0 if no
+void	fill_a(t_stack *a, char *str, int should_free)
 {
 	int		value;
 	char	*temp;
 
-	if (!str) // Check if the string pointer is NULL
+	if (!str)
 	{
-		ft_putstr_fd("Error.\n", 2);
-		ft_stackclear(a);
-		exit(EXIT_SUCCESS);
+		if (should_free)
+			free(str);
+		put_error(a);
 	}
 	value = 1;
-	if (ft_strlen(str) == 0) //1. if string is empty just ignore it
+	if (ft_strlen(str) == 0)
 		return ;
-	if (*str == '+' || *str == '-') //2. we accept only numbers with one sign, else it is wrong, so we remember the sign and move past it
+	if (*str == '+' || *str == '-')
 	{
 		if (*str == '-')
 			value *= -1;
 		str++;
 	}
 	temp = str;
+	// handle passing in just spaces - one or more - causes segfault
+	// while (*temp && *temp == ' ')
+	// 	temp++;
+	// if (*temp != '\0')
+	// {
+	// 	return ;
+	// }
+	temp = str;
 	while (*temp && (*temp >= '0' && *temp <= '9')) // 3. while string contains digits move through it, if does not end in NULL means we encountered other character so we error and exit
 		temp++;
 	if (*temp != '\0')
 	{
-		ft_putstr_fd("Error.\n", 2);
-		ft_stackclear(a);
-		exit(EXIT_SUCCESS);
+		// should free str if it is from one large string input type
+		if (should_free)
+			free(str);
+		put_error(a);
 	}
-	// TODO: handle string bigger than int
 	if (is_bigger_than_int(str, value))
 	{
-		ft_putstr_fd("Error.\n", 2);
-		ft_stackclear(a);
-		exit(EXIT_SUCCESS);
+		// should free str if it is from one large string input type
+		if (should_free)
+			free(str);
+		put_error(a);
 	}
-	// TODO: add checks if atoi is 0 and number is not 0
 	value = value * ft_atoi(str);
 	if (value == 0 && ft_strncmp(str, "0", 1) && ft_strncmp(str, "+0", 2)
 		&& ft_strncmp(str, "-0", 2))
 	{
-		ft_putstr_fd("Error.\n", 2);
-		ft_stackclear(a);
-		exit(EXIT_SUCCESS);
+		// should free str if it is from one large string input type
+		if (should_free)
+			free(str);
+		put_error(a);
 	}
 	check_duplicates(value, a);
 	ft_stackadd_back(a, ft_stacknew(value));
@@ -104,6 +92,7 @@ a. if (j > (int)ft_strlen(str)) --> if j
 void	fill_a_from_str(t_stack *a, char *str)
 {
 	char **arr;
+	char *temp;
 	int i;
 
 	arr = ft_split(str, ' ');
@@ -116,46 +105,19 @@ void	fill_a_from_str(t_stack *a, char *str)
 	i = 0;
 	while (arr[i] != NULL)
 	{
-		if (!arr[i])
+		temp = arr[i];
+		if (!temp)
 		{
 			ft_putstr_fd("Error.\n", 2);
-			free(arr);
+			free(temp);
 			ft_stackclear(a);
 			exit(EXIT_SUCCESS);
 		}
-		fill_a(a, arr[i]);
-		//printf("%s\n", arr[i]);
+		fill_a(a, temp, 1);
+		free(temp);
 		i++;
 	}
-	//free(arr);
-	// int		j;
-	// int		len;
-	// char	*temp;
-
-	// j = 0;
-	// while (str[j])
-	// {
-	// 	if (j > (int)ft_strlen(str))
-	// 		break ;
-	// 	len = 0;
-	// 	if (str[j] == 32)
-	// 		j++;
-	// 	while (ft_isdigit(str[j]) || str[j] == '-' || str[j] == '+')
-	// 	{
-	// 		len++;
-	// 		j++;
-	// 	}
-	// 	if (j == 0)
-	// 	{
-	// 		ft_putstr_fd("Error.\n", 2);
-	// 		ft_stackclear(a);
-	// 		exit(EXIT_SUCCESS);
-	// 	}
-	// 	temp = ft_substr(str, j - len, len);
-	// 	fill_a(a, temp);
-	// 	free(temp);
-	// 	j++;
-	// }
+	free(arr);
 }
 
 void	init_stacks(t_stack *a, t_stack *b)
@@ -183,7 +145,7 @@ int	main(int argc, char *argv[])
 	else
 	{
 		while (++i < argc)
-			fill_a(&a, argv[i]);
+			fill_a(&a, argv[i], 0);
 	}
 	find_values(&a);
 	algorithm(&a, &b);
@@ -193,7 +155,6 @@ int	main(int argc, char *argv[])
 	return (0);
 }
 
-// TODO: max int value
-// saving to stack from str  not work properly
-// handle passing in one or more spaces in str
-// handle min int must allow -2147483648
+// TODO:
+// !! passing in one or more spaces in str without number makes segfault
+// maybe we need to free strings from array allocated for string input in the fill_a function too

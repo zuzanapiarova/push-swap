@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:26 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/02 18:54:04 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:45:37 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,21 @@ void	find_values(t_stack *s)
 	if (temp->value < s->min->value)
 		s->min = temp;
 	index_stack(s);
+}
+
+void	index_stack(t_stack *s)
+{
+	t_node	*temp;
+	int		index;
+
+	index = 0;
+	temp = s->head;
+	while (temp)
+	{
+		temp->i = index;
+		temp = temp->next;
+		index++;
+	}
 }
 
 void	print_stack(t_stack *s)
