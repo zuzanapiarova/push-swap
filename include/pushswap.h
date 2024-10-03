@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 19:50:55 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/10/03 15:43:00 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/03 18:08:30 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,8 @@ typedef struct s_stack
 }				t_stack;
 
 // MAIN
-void	fill_a(t_stack *a, char *str, int should_free);
+void	fill_a(t_stack *a, char *str);
 void	fill_a_from_str(t_stack *a, char *str);
-void	init_stacks(t_stack *a, t_stack *b);
 
 // algorithm
 void	find_cheapest_operation(t_stack *a, t_stack *b);
@@ -85,7 +84,7 @@ void	ft_stackclear(t_stack *s);
 int		is_bigger_than_int(const char *num_str, int value);
 
 // stack utils
-void	check_duplicates(int value, t_stack *s);
+int		has_duplicates(int value, t_stack *s);
 bool	is_sorted(t_stack *a);
 void	find_values(t_stack *s);
 void	print_stack(t_stack *s);

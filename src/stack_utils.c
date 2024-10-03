@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   stack_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
+/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:26 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/03 14:45:37 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/03 18:08:20 by zpiarova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-void	check_duplicates(int value, t_stack *s)
+int	has_duplicates(int value, t_stack *s)
 {
 	t_node	*current;
 
@@ -20,14 +20,11 @@ void	check_duplicates(int value, t_stack *s)
 	while (current)
 	{
 		if (current->value == value)
-		{
-			ft_putstr_fd("Error.\n", 2);
-			ft_stackclear(s);
-			exit(EXIT_SUCCESS);
-		}
+			return (1);
 		else
 			current = current->next;
 	}
+	return (0);
 }
 
 // iterate stack until node  is bigger than next node, or we come to end
@@ -89,8 +86,8 @@ void	print_stack(t_stack *s)
 
 	current = s->head;
 	if (current)
-		printf("Stack %s, size: %d(first: %d, last: %d, min: %d, max:%d)\n",
-			s->name, s->size, s->first->value, s->last->value, s->min->value,
+		printf("Stack: size: %d(first: %d, last: %d, min: %d, max:%d)\n",
+			s->size, s->first->value, s->last->value, s->min->value,
 			s->max->value);
 	while (current)
 	{
