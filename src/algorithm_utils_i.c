@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   algorithm_utils_i.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:23:52 by zuzanapiaro       #+#    #+#             */
-/*   Updated: 2024/10/03 20:06:24 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/07 21:59:04 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	do_r_or_rr(t_node *n, t_stack *s)
 {
 	int	operation;
 
-	if (!s || !s->first || !n)
+	if (!s || !s->head || !n)
 		return ;
 	if (n->i < 0 || n->i >= s->size)
 		return ;
@@ -106,8 +106,12 @@ void	do_r_or_rr(t_node *n, t_stack *s)
 	while (s->first != n)
 	{
 		if (operation == 1)
+		{
 			ra(s);
+		}
 		else
+		{
 			rra(s);
+		}
 	}
 }

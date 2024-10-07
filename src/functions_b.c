@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_b.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 17:43:45 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/02 17:16:27 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/07 22:13:46 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	pb(t_stack *a, t_stack *b)
 		a->first = a->head;
 		if (a->head == NULL)
 			a->last = NULL;
+		find_values(a);
 		find_values(b);
 	}
 	index_stack(a);

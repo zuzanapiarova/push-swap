@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pushswap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zpiarova <zpiarova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:19 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/03 20:41:02 by zpiarova         ###   ########.fr       */
+/*   Updated: 2024/10/07 21:25:59 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	put_error(t_stack *a, char **arr)
 {
 	if (arr != NULL)
 		free_array(arr);
-	ft_putstr_fd("Error.\n", 2);
+	ft_putstr_fd("Error\n", 2);
 	ft_stackclear(a);
 	exit(EXIT_SUCCESS);
 }
