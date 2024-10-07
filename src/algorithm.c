@@ -6,7 +6,7 @@
 /*   By: zuzanapiarova <zuzanapiarova@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 17:50:53 by zpiarova          #+#    #+#             */
-/*   Updated: 2024/10/07 22:15:49 by zuzanapiaro      ###   ########.fr       */
+/*   Updated: 2024/10/07 22:16:19 by zuzanapiaro      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,29 +148,4 @@ void	algorithm(t_stack *a, t_stack *b)
 		sort_three(a);
 	}
 	back_to_a(a, b);
-}
-
-void	back_to_a(t_stack *a, t_stack *b)
-{
-	t_node	*successor;
-
-	while (b->head)
-	{
-		successor = find_successor(b->head, a);
-		if (successor && a->head->value != b->head->value + 1)
-			do_r_or_rr(successor, a);
-		if (!successor && a->min != a->first)
-			do_r_or_rr(a->min, a);
-		pa(a, b);
-	}
-	if (a->min->i - a->first->i <= (a->size) / 2)
-	{
-		while (a->first != a->min)
-			ra(a);
-	}
-	else
-	{
-		while (a->last != a->max)
-			rra(a);
-	}
 }
